@@ -12,8 +12,7 @@ import {
 import { ActionToast } from '@/components/ui/action-toast';
 import { toDateTimeLocalValue } from '@/lib/slug';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useState } from 'react';
 
 type CategoryOption = {
   id: string;
@@ -46,13 +45,6 @@ export function ArticleForm({
   const action = saveArticleAction.bind(null, article?.id ?? null);
   const [state, formAction, pending] = useActionState(action, null);
   const [status, setStatus] = useState(article?.status ?? 'DRAFT');
-  const router = useRouter();
-
-  useEffect(() => {
-    if (state?.redirectTo) {
-      router.push(state.redirectTo);
-    }
-  }, [router, state?.redirectTo]);
 
   return (
     <form action={formAction} className='flex flex-col gap-6'>

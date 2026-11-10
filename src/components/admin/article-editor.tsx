@@ -11,6 +11,27 @@ import { useState } from 'react';
 const toolbarButtonClassName =
   'rounded px-2 py-1 text-xs font-medium text-foreground transition-colors hover:bg-muted disabled:opacity-50';
 
+function normalizeLinkHref(rawHref: string) {
+  const href = rawHref.trim();
+
+  if (!href) {
+    return '';
+  }
+
+  if (
+    /^(mailto:|tel:|#|\/|\.\/|https?:\/\/|ftp:\/\/)/i.test(href) ||
+    /^\w+:\/\//i.test(href)
+  ) {
+    return href;
+  }
+
+  if (/^([a-z0-9-]+\.)+[a-z]{2,}(\/.*)?$/i.test(href)) {
+    return `https://${href}`;
+  }
+
+  return href;
+}
+
 type ArticleEditorProps = {
   name: string;
   defaultValue?: string;
@@ -22,7 +43,15 @@ export function ArticleEditor({ name, defaultValue = '' }: ArticleEditorProps) {
     immediatelyRender: false,
     extensions: [
       StarterKit,
-      Link.configure({ openOnClick: false, autolink: true }),
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: 'https',
+        HTMLAttributes: {
+          rel: 'noopener noreferrer nofollow',
+          target: '_blank',
+        },
+      }),
       Image.configure({ allowBase64: false }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Placeholder.configure({ placeholder: 'Write the article...' }),
@@ -128,7 +157,13 @@ export function ArticleEditor({ name, defaultValue = '' }: ArticleEditorProps) {
               return;
             }
 
-            editor?.chain().focus().setLink({ href }).run();
+            const normalizedHref = normalizeLinkHref(href);
+
+            if (!normalizedHref) {
+              return;
+            }
+
+            editor?.chain().focus().setLink({ href: normalizedHref }).run();
           }}
           type='button'
         >

@@ -10,7 +10,6 @@ import { revalidatePath } from 'next/cache';
 export type ArticleFormState = {
   error?: string;
   success?: string;
-  redirectTo?: string;
 } | null;
 
 function formValues(formData: FormData) {
@@ -159,7 +158,6 @@ export async function saveArticleAction(
   revalidatePath('/admin/articles');
   return {
     success: articleId ? 'Article updated.' : 'Article created.',
-    redirectTo: '/admin/articles',
   };
 }
 
