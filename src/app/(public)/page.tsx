@@ -48,11 +48,11 @@ export default function HomePage() {
             Our focus
           </p>
           <p className='mt-3 font-heading text-2xl leading-snug text-foreground sm:text-3xl'>
-            A trusted place to learn, question, and find clarity.
+            Legal research, live realities, and what the law often misses.
           </p>
           <p className='mt-4 text-sm leading-6 text-muted-foreground'>
-            Survivor-centred, research-led perspectives on sexual and
-            gender-based violence, without victim blaming.
+            Survivor-centred reporting and analysis on sexual and gender-based
+            violence, without victim blaming.
           </p>
         </aside>
       </section>
@@ -72,8 +72,8 @@ export default function HomePage() {
             What we cover
           </h2>
           <p className='mt-4 max-w-sm text-sm leading-6 text-muted-foreground'>
-            We look beyond legislation to lived realities, overlooked questions,
-            and ways to make protections and support more meaningful.
+            We examine the law, the gaps in it, and the realities it too often
+            fails to recognise.
           </p>
         </div>
 
@@ -100,11 +100,11 @@ export default function HomePage() {
             Read with care
           </p>
           <h2 className='mt-3 max-w-2xl font-heading text-3xl leading-tight text-foreground sm:text-4xl'>
-            Knowledge should make room for dignity, care, and justice.
+            Clarity matters when the stakes are this high.
           </h2>
           <p className='mt-4 max-w-2xl text-base leading-7 text-muted-foreground'>
-            Explore legal research, case-law analysis, public education, and
-            survivor-centred commentary at your own pace.
+            Explore legal research, case-law analysis, and survivor-centred
+            commentary at your own pace.
           </p>
         </div>
         <Link

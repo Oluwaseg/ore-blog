@@ -15,36 +15,33 @@ export default function AboutPage() {
           About
         </p>
         <h1 className='mt-3 font-heading text-4xl leading-tight text-foreground sm:text-5xl'>
-          Beyond the Statute: what justice promises, and what people experience.
+          Beyond the Statute asks what the law promises, and what people live.
         </h1>
         <p className='mt-5 text-lg leading-8 text-muted-foreground'>
-          An independent legal research, education, and advocacy platform
-          committed to advancing understanding, awareness, and meaningful
-          conversations around sexual and gender-based violence.
+          Beyond the Statute is an independent publication on sexual and
+          gender-based violence, focused on legal research, public education,
+          and the realities the law too often leaves out.
         </p>
       </header>
 
       <div className='space-y-6 text-base leading-8 text-foreground'>
         <p>
-          We explore these issues beyond the confines of legislation through
-          legal research, case-law analysis, comparative studies, evidence-based
-          commentary, and public education. We ask what the law promises, how
-          protections work in practice, whose realities are overlooked, and what
-          can make justice more accessible and meaningful.
+          We look beyond the text of the law to the systems, decisions, and
+          barriers that shape how justice is experienced in practice. Our work
+          includes case-law analysis, comparative research, and public
+          commentary on the gaps between legal protection and lived reality.
         </p>
         <p>
-          Beyond the Statute is intended as a safe, inclusive, and accessible
-          space for learning and respectful conversation. We work to challenge
-          myths, make rights and legal pathways easier to understand, reduce
-          stigma, and keep discussions survivor-centred and free from victim
-          blaming.
+          We are committed to survivor-centred reporting, clear public
+          education, and a safer space for difficult conversations. We aim to
+          challenge myths, reduce stigma, and make legal rights easier to
+          understand without shifting blame onto those who have been harmed.
         </p>
         <p>
-          Our work is grounded in rigorous research, care, procedural fairness,
-          intellectual honesty, and accountability. We believe meaningful change
-          takes more than laws: it also takes understanding, implementation, and
-          attention to the barriers people face when seeking support and
-          justice.
+          This publication is rooted in rigorous research, accountability, and
+          respect for the people affected by sexual and gender-based violence.
+          We believe justice is not only a legal standard, but a lived reality
+          shaped by access, recognition, and care.
         </p>
       </div>
 
