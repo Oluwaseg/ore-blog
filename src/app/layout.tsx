@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@/components/theme-provider';
 import { publication } from '@/lib/publication';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
@@ -15,8 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: publication.name,
-    template: `%s | ${publication.name}`,
+    default: "Editorial platform",
+    template: `%s | Editorial platform`,
   },
   description: publication.description,
 };
@@ -25,9 +26,19 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang='en'
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className='min-h-full bg-zinc-50 text-zinc-900'>{children}</body>
+      <body>
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

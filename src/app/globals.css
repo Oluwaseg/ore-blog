@@ -1,32 +1,228 @@
-@import 'tailwindcss';
 
-:root {
-  --background: #f5f5f4;
-  --foreground: #18181b;
-}
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* =========================================
+   THEME TOKENS
+========================================= */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-editorial);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
+
+/* =========================================
+   LIGHT THEME
+   Editorial Plum & Warm Paper
+========================================= */
+
+:root {
+  color-scheme: light;
+
+  --radius: 0.625rem;
+
+  /* Typography */
+  --font-editorial: Georgia, "Times New Roman", serif;
+
+  /* Base */
+  --background: oklch(0.978 0.009 78);
+  --foreground: oklch(0.255 0.018 20);
+
+  /* Surfaces */
+  --card: oklch(0.995 0.004 80);
+  --card-foreground: oklch(0.255 0.018 20);
+
+  --popover: oklch(0.995 0.004 80);
+  --popover-foreground: oklch(0.255 0.018 20);
+
+  /* Brand: Aubergine */
+  --primary: oklch(0.445 0.085 351);
+  --primary-foreground: oklch(0.985 0.006 80);
+
+  /* Secondary: Warm taupe */
+  --secondary: oklch(0.935 0.016 68);
+  --secondary-foreground: oklch(0.32 0.025 25);
+
+  /* Muted surfaces */
+  --muted: oklch(0.951 0.012 75);
+  --muted-foreground: oklch(0.515 0.018 35);
+
+  /* Accent: Dusty rose */
+  --accent: oklch(0.925 0.027 355);
+  --accent-foreground: oklch(0.37 0.065 350);
+
+  /* Destructive */
+  --destructive: oklch(0.53 0.17 25);
+
+  /* Borders & inputs */
+  --border: oklch(0.895 0.012 65);
+  --input: oklch(0.895 0.012 65);
+  --ring: oklch(0.56 0.075 350);
+
+  /* Charts */
+  --chart-1: oklch(0.48 0.095 351);
+  --chart-2: oklch(0.61 0.075 15);
+  --chart-3: oklch(0.63 0.075 82);
+  --chart-4: oklch(0.55 0.045 150);
+  --chart-5: oklch(0.52 0.025 245);
+
+  /* Sidebar */
+  --sidebar: oklch(0.963 0.009 75);
+  --sidebar-foreground: oklch(0.255 0.018 20);
+
+  --sidebar-primary: oklch(0.445 0.085 351);
+  --sidebar-primary-foreground: oklch(0.985 0.006 80);
+
+  --sidebar-accent: oklch(0.925 0.027 355);
+  --sidebar-accent-foreground: oklch(0.37 0.065 350);
+
+  --sidebar-border: oklch(0.895 0.012 65);
+  --sidebar-ring: oklch(0.56 0.075 350);
+}
+
+/* =========================================
+   DARK THEME
+   Plum Ink & Muted Rose
+========================================= */
+
+.dark {
+  color-scheme: dark;
+
+  /* Base */
+  --background: oklch(0.205 0.012 15);
+  --foreground: oklch(0.94 0.009 75);
+
+  /* Surfaces */
+  --card: oklch(0.235 0.014 15);
+  --card-foreground: oklch(0.94 0.009 75);
+
+  --popover: oklch(0.255 0.015 15);
+  --popover-foreground: oklch(0.94 0.009 75);
+
+  /* Brand: Soft plum */
+  --primary: oklch(0.72 0.075 350);
+  --primary-foreground: oklch(0.22 0.02 15);
+
+  /* Secondary */
+  --secondary: oklch(0.30 0.016 25);
+  --secondary-foreground: oklch(0.92 0.009 75);
+
+  /* Muted surfaces */
+  --muted: oklch(0.285 0.014 20);
+  --muted-foreground: oklch(0.72 0.014 45);
+
+  /* Accent: Muted rose */
+  --accent: oklch(0.34 0.035 350);
+  --accent-foreground: oklch(0.93 0.012 75);
+
+  /* Destructive */
+  --destructive: oklch(0.68 0.16 24);
+
+  /* Borders & inputs */
+  --border: oklch(0.36 0.014 25);
+  --input: oklch(0.36 0.014 25);
+  --ring: oklch(0.68 0.075 350);
+
+  /* Charts */
+  --chart-1: oklch(0.72 0.075 350);
+  --chart-2: oklch(0.73 0.075 15);
+  --chart-3: oklch(0.76 0.075 82);
+  --chart-4: oklch(0.72 0.055 150);
+  --chart-5: oklch(0.72 0.045 245);
+
+  /* Sidebar */
+  --sidebar: oklch(0.19 0.012 15);
+  --sidebar-foreground: oklch(0.94 0.009 75);
+
+  --sidebar-primary: oklch(0.72 0.075 350);
+  --sidebar-primary-foreground: oklch(0.22 0.02 15);
+
+  --sidebar-accent: oklch(0.34 0.035 350);
+  --sidebar-accent-foreground: oklch(0.93 0.012 75);
+
+  --sidebar-border: oklch(0.36 0.014 25);
+  --sidebar-ring: oklch(0.68 0.075 350);
+}
+
+/* =========================================
+   BASE STYLES
+========================================= */
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  @apply bg-background text-foreground;
 }
 
 * {
   box-sizing: border-box;
+  @apply border-border outline-ring/50;
 }
 
 img {
   max-width: 100%;
   display: block;
+}
+
+@layer base {
+  html {
+    @apply font-sans;
+  }
 }

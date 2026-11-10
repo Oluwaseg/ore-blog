@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useActionState, useState } from "react";
-import { saveArticleAction } from "@/actions/articles";
-import { ArticleEditor } from "@/components/admin/article-editor";
+import { saveArticleAction } from '@/actions/articles';
+import { ArticleEditor } from '@/components/admin/article-editor';
 import {
   inputClassName,
   labelClassName,
   primaryButtonClassName,
   textareaClassName,
-} from "@/components/admin/styles";
-import { toDateTimeLocalValue } from "@/lib/slug";
+} from '@/components/admin/styles';
+import { toDateTimeLocalValue } from '@/lib/slug';
+import { useActionState, useState } from 'react';
 
 type CategoryOption = {
   id: string;
@@ -23,7 +23,7 @@ type ArticleFormValues = {
   excerpt: string;
   content: string;
   featuredImage: string;
-  status: "DRAFT" | "SCHEDULED" | "PUBLISHED" | "ARCHIVED";
+  status: 'DRAFT' | 'SCHEDULED' | 'PUBLISHED' | 'ARCHIVED';
   scheduledAt: Date | null;
   metaTitle: string;
   metaDescription: string;
@@ -40,85 +40,85 @@ export function ArticleForm({
 }) {
   const action = saveArticleAction.bind(null, article?.id ?? null);
   const [state, formAction, pending] = useActionState(action, null);
-  const [status, setStatus] = useState(article?.status ?? "DRAFT");
+  const [status, setStatus] = useState(article?.status ?? 'DRAFT');
 
   return (
-    <form action={formAction} className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <label className={labelClassName} htmlFor="title">
+    <form action={formAction} className='flex flex-col gap-6'>
+      <div className='flex flex-col gap-2'>
+        <label className={labelClassName} htmlFor='title'>
           Title
         </label>
         <input
           className={inputClassName}
           defaultValue={article?.title}
-          id="title"
-          name="title"
+          id='title'
+          name='title'
           required
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <label className={labelClassName} htmlFor="slug">
+      <div className='flex flex-col gap-2'>
+        <label className={labelClassName} htmlFor='slug'>
           Slug
         </label>
         <input
           className={inputClassName}
           defaultValue={article?.slug}
-          id="slug"
-          name="slug"
-          placeholder="Generated from the title if left blank"
+          id='slug'
+          name='slug'
+          placeholder='Generated from the title if left blank'
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <label className={labelClassName} htmlFor="excerpt">
+      <div className='flex flex-col gap-2'>
+        <label className={labelClassName} htmlFor='excerpt'>
           Excerpt
         </label>
         <textarea
           className={textareaClassName}
           defaultValue={article?.excerpt}
-          id="excerpt"
-          name="excerpt"
+          id='excerpt'
+          name='excerpt'
           rows={3}
         />
       </div>
-      <div className="flex flex-col gap-2">
+      <div className='flex flex-col gap-2'>
         <span className={labelClassName}>Content</span>
-        <ArticleEditor defaultValue={article?.content} name="content" />
+        <ArticleEditor defaultValue={article?.content} name='content' />
       </div>
-      <div className="flex flex-col gap-2">
-        <label className={labelClassName} htmlFor="featuredImage">
+      <div className='flex flex-col gap-2'>
+        <label className={labelClassName} htmlFor='featuredImage'>
           Featured image URL
         </label>
         <input
           className={inputClassName}
           defaultValue={article?.featuredImage}
-          id="featuredImage"
-          name="featuredImage"
-          placeholder="https://"
-          type="url"
+          id='featuredImage'
+          name='featuredImage'
+          placeholder='https://'
+          type='url'
         />
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-2">
-          <label className={labelClassName} htmlFor="status">
+      <div className='grid gap-4 sm:grid-cols-2'>
+        <div className='flex flex-col gap-2'>
+          <label className={labelClassName} htmlFor='status'>
             Status
           </label>
           <select
             className={inputClassName}
-            id="status"
-            name="status"
+            id='status'
+            name='status'
             onChange={(event) =>
-              setStatus(event.target.value as ArticleFormValues["status"])
+              setStatus(event.target.value as ArticleFormValues['status'])
             }
             value={status}
           >
-            <option value="DRAFT">Draft</option>
-            <option value="SCHEDULED">Scheduled</option>
-            <option value="PUBLISHED">Published</option>
-            <option value="ARCHIVED">Archived</option>
+            <option value='DRAFT'>Draft</option>
+            <option value='SCHEDULED'>Scheduled</option>
+            <option value='PUBLISHED'>Published</option>
+            <option value='ARCHIVED'>Archived</option>
           </select>
         </div>
-        <div className="flex flex-col gap-2">
-          <label className={labelClassName} htmlFor="scheduledAt">
+        <div className='flex flex-col gap-2'>
+          <label className={labelClassName} htmlFor='scheduledAt'>
             Schedule for
           </label>
           <input
@@ -126,52 +126,54 @@ export function ArticleForm({
             defaultValue={
               article?.scheduledAt
                 ? toDateTimeLocalValue(article.scheduledAt)
-                : ""
+                : ''
             }
-            id="scheduledAt"
-            name="scheduledAt"
-            type="datetime-local"
+            id='scheduledAt'
+            name='scheduledAt'
+            type='datetime-local'
           />
         </div>
       </div>
-      <div className="flex flex-col gap-2">
-        <label className={labelClassName} htmlFor="metaTitle">
+      <div className='flex flex-col gap-2'>
+        <label className={labelClassName} htmlFor='metaTitle'>
           SEO title
         </label>
         <input
           className={inputClassName}
           defaultValue={article?.metaTitle}
-          id="metaTitle"
-          name="metaTitle"
+          id='metaTitle'
+          name='metaTitle'
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <label className={labelClassName} htmlFor="metaDescription">
+      <div className='flex flex-col gap-2'>
+        <label className={labelClassName} htmlFor='metaDescription'>
           SEO description
         </label>
         <textarea
           className={textareaClassName}
           defaultValue={article?.metaDescription}
-          id="metaDescription"
-          name="metaDescription"
+          id='metaDescription'
+          name='metaDescription'
           rows={3}
         />
       </div>
-      <fieldset className="flex flex-col gap-2">
+      <fieldset className='flex flex-col gap-2'>
         <legend className={labelClassName}>Categories</legend>
         {categories.length === 0 ? (
-          <p className="text-sm text-zinc-500">Create a category first.</p>
+          <p className='text-sm text-muted-foreground'>
+            Create a category first.
+          </p>
         ) : (
-          <div className="flex flex-col gap-2">
+          <div className='flex flex-col gap-2'>
             {categories.map((category) => (
               <label
-                className="flex items-center gap-2 text-sm"
+                className='flex items-center gap-2 text-sm'
                 key={category.id}
               >
                 <input
                   defaultChecked={article?.categoryIds.includes(category.id)}
-                  name="categoryIds"
-                  type="checkbox"
+                  name='categoryIds'
+                  type='checkbox'
                   value={category.id}
                 />
                 {category.name}
@@ -180,29 +182,29 @@ export function ArticleForm({
           </div>
         )}
       </fieldset>
-      <div className="flex flex-col gap-2">
-        <label className={labelClassName} htmlFor="tags">
+      <div className='flex flex-col gap-2'>
+        <label className={labelClassName} htmlFor='tags'>
           Tags
         </label>
         <input
           className={inputClassName}
           defaultValue={article?.tags}
-          id="tags"
-          name="tags"
-          placeholder="Comma-separated"
+          id='tags'
+          name='tags'
+          placeholder='Comma-separated'
         />
       </div>
       {state?.error ? (
-        <p className="text-sm text-red-600 dark:text-red-400" role="alert">
+        <p className='text-sm text-destructive' role='alert'>
           {state.error}
         </p>
       ) : null}
       <button
         className={primaryButtonClassName}
         disabled={pending}
-        type="submit"
+        type='submit'
       >
-        {pending ? "Saving..." : "Save article"}
+        {pending ? 'Saving...' : 'Save article'}
       </button>
     </form>
   );

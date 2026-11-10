@@ -1,0 +1,28 @@
+How I'd use the colours
+Don't use every colour everywhere. The hierarchy matters.
+Element	Colour
+Main page background	Warm paper
+Cards	Slightly brighter ivory
+Primary buttons	Aubergine
+Active navigation	Dusty rose
+Headings	Deep ink
+Secondary text	Warm muted grey
+Dividers	Soft warm grey
+Success indicators	Muted sage
+Warning indicators	Muted brass
+Destructive actions	Restrained red
+
+3. A few design decisions
+Typography: Keep Geist Sans for the dashboard and general UI. Use the editorial serif font for prominent public-facing headings and article titles.
+
+For example:
+<h1 className="font-heading text-5xl tracking-tight">
+  Stories that deserve to be heard.
+</h1>
+
+
+Dashboard: Keep it functional and restrained. No unnecessary coloured cards, gradients or excessive shadows.
+
+Public website: Give it a more editorial personality. Larger typography, generous whitespace, carefully structured article layouts and comfortable reading widths.
+
+Dark mode: Don't just invert the light theme. The sidebar should be slightly darker than the main content, while cards should be slightly lighter.
