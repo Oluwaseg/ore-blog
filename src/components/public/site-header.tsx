@@ -27,7 +27,7 @@ export async function SiteHeader() {
       {publication.logoUrl ? (
         <img
           alt=''
-          className='max-h-10 max-w-28 object-contain md:max-h-12 md:max-w-36'
+          className='max-h-16 max-w-48 object-contain md:max-h-12 md:max-w-36'
           src={publication.logoUrl}
         />
       ) : null}

@@ -43,7 +43,7 @@ model PublicationSettings {
   id              String   @id @default("default")
   publicationName String   @default("Beyond the Statute")
   tagline         String   @default("Understanding the law. Centering lived realities. Advancing justice.")
-  description     String   @default("Beyond the Statute is an independent legal research, education, and advocacy platform advancing understanding and meaningful conversations around sexual and gender-based violence.")
+  description     String   @default("Legal research, public education, and the realities the law too often leaves out.")
   logoUrl         String?  @db.Text
   instagramUrl    String?
   metaTitle       String?

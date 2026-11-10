@@ -5,7 +5,7 @@ export const publication = {
   tagline:
     'Understanding the law. Centering lived realities. Advancing justice.',
   description:
-    'Beyond the Statute is an independent legal research, education, and advocacy platform advancing understanding and meaningful conversations around sexual and gender-based violence. We explore what the law promises, what happens in practice, whose realities are overlooked, and how justice can become a lived experience.',
+    'Legal research, public education, and the realities the law too often leaves out.',
 };
 
 export async function getPublicationSettings() {

@@ -48,7 +48,7 @@ export async function SiteFooter() {
               {publication.logoUrl ? (
                 <img
                   alt=''
-                  className='max-h-10 max-w-32 object-contain'
+                  className='max-h-16 max-w-48 object-contain'
                   src={publication.logoUrl}
                 />
               ) : null}
