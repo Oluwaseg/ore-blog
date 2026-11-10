@@ -159,7 +159,7 @@ export async function saveArticleAction(
   revalidatePath('/admin/articles');
   return {
     success: articleId ? 'Article updated.' : 'Article created.',
-    redirectTo: `/admin/articles/${article.id}/edit`,
+    redirectTo: '/admin/articles',
   };
 }
 

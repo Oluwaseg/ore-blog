@@ -6,10 +6,12 @@ import {
   inputClassName,
   labelClassName,
   primaryButtonClassName,
+  secondaryButtonClassName,
   textareaClassName,
 } from '@/components/admin/styles';
 import { ActionToast } from '@/components/ui/action-toast';
 import { toDateTimeLocalValue } from '@/lib/slug';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
 
@@ -226,13 +228,18 @@ export function ArticleForm({
           {state.error}
         </p>
       ) : null}
-      <button
-        className={primaryButtonClassName}
-        disabled={pending}
-        type='submit'
-      >
-        {pending ? 'Saving...' : 'Save article'}
-      </button>
+      <div className='flex flex-col gap-3 sm:flex-row sm:items-center'>
+        <button
+          className={primaryButtonClassName}
+          disabled={pending}
+          type='submit'
+        >
+          {pending ? 'Saving...' : 'Save article'}
+        </button>
+        <Link className={secondaryButtonClassName} href='/admin/articles'>
+          Cancel
+        </Link>
+      </div>
     </form>
   );
 }
