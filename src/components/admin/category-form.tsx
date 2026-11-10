@@ -7,7 +7,9 @@ import {
   primaryButtonClassName,
   textareaClassName,
 } from '@/components/admin/styles';
-import { useActionState } from 'react';
+import { ActionToast } from '@/components/ui/action-toast';
+import { useRouter } from 'next/navigation';
+import { useActionState, useEffect } from 'react';
 
 type CategoryFormValues = {
   id?: string;
@@ -16,12 +18,30 @@ type CategoryFormValues = {
   description: string;
 };
 
-export function CategoryForm({ category }: { category?: CategoryFormValues }) {
+export function CategoryForm({
+  category,
+  onSaved,
+}: {
+  category?: CategoryFormValues;
+  onSaved?: () => void;
+}) {
   const action = saveCategoryAction.bind(null, category?.id ?? null);
   const [state, formAction, pending] = useActionState(action, null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state?.success) {
+      router.refresh();
+      onSaved?.();
+    }
+  }, [onSaved, router, state?.success]);
 
   return (
     <form action={formAction} className='flex flex-col gap-4'>
+      <ActionToast
+        state={state}
+        successMessage={category ? 'Category updated.' : 'Category created.'}
+      />
       <div className='flex flex-col gap-2'>
         <label
           className={labelClassName}

@@ -1,30 +1,31 @@
-"use server";
+'use server';
 
-import { redirect } from "next/navigation";
-import { verifyPasswordOrDummy } from "@/features/auth/password";
+import { verifyPasswordOrDummy } from '@/features/auth/password';
 import {
   clearSession,
   createSession,
   getSession,
-} from "@/features/auth/session";
-import { db } from "@/lib/db";
-import { loginSchema } from "@/lib/validations/auth";
+} from '@/features/auth/session';
+import { db } from '@/lib/db';
+import { loginSchema } from '@/lib/validations/auth';
+import { redirect } from 'next/navigation';
 
 export type LoginState = {
-  error: string;
+  error?: string;
+  success?: string;
 } | null;
 
 export async function loginAction(
   _prevState: LoginState,
-  formData: FormData,
+  formData: FormData
 ): Promise<LoginState> {
   const parsed = loginSchema.safeParse({
-    email: formData.get("email"),
-    password: formData.get("password"),
+    email: formData.get('email'),
+    password: formData.get('password'),
   });
 
   if (!parsed.success) {
-    return { error: "Invalid email or password." };
+    return { error: 'Invalid email or password.' };
   }
 
   const email = parsed.data.email.toLowerCase();
@@ -34,11 +35,11 @@ export async function loginAction(
 
   const isValid = await verifyPasswordOrDummy(
     admin?.passwordHash,
-    parsed.data.password,
+    parsed.data.password
   );
 
   if (!admin || !isValid) {
-    return { error: "Invalid email or password." };
+    return { error: 'Invalid email or password.' };
   }
 
   await createSession({
@@ -46,7 +47,7 @@ export async function loginAction(
     email: admin.email,
   });
 
-  redirect("/admin");
+  return { success: 'Signed in successfully.' };
 }
 
 export async function logoutAction() {
@@ -56,5 +57,5 @@ export async function logoutAction() {
     await clearSession();
   }
 
-  redirect("/admin/login");
+  redirect('/admin/login');
 }

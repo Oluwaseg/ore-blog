@@ -1,15 +1,14 @@
 import { ArticleCard } from '@/components/public/article-card';
 import { listPublishedArticles } from '@/features/articles/public';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Articles',
   description: 'Read published articles and perspectives.',
 };
 
-export default async function ArticlesPage() {
-  const articles = await listPublishedArticles();
-
+export default function ArticlesPage() {
   return (
     <div className='space-y-10'>
       <header className='max-w-3xl border-b border-border pb-8'>
@@ -25,25 +24,52 @@ export default async function ArticlesPage() {
         </p>
       </header>
 
-      {articles.length ? (
-        <section
-          aria-label='Published articles'
-          className='grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3'
-        >
-          {articles.map((article) => (
-            <ArticleCard article={article} key={article.id} />
-          ))}
-        </section>
-      ) : (
-        <div className='border-l-2 border-primary/40 py-2 pl-5'>
-          <h2 className='font-heading text-2xl text-foreground'>
-            The journal is taking shape.
-          </h2>
-          <p className='mt-2 max-w-xl text-sm leading-6 text-muted-foreground'>
-            Published stories will appear here. Please check back soon.
-          </p>
+      <Suspense fallback={<ArticlesFallback />}>
+        <PublishedArticles />
+      </Suspense>
+    </div>
+  );
+}
+
+async function PublishedArticles() {
+  const articles = await listPublishedArticles();
+
+  return articles.length ? (
+    <section
+      aria-label='Published articles'
+      className='grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3'
+    >
+      {articles.map((article) => (
+        <ArticleCard article={article} key={article.id} />
+      ))}
+    </section>
+  ) : (
+    <div className='border-l-2 border-primary/40 py-2 pl-5'>
+      <h2 className='font-heading text-2xl text-foreground'>
+        The journal is taking shape.
+      </h2>
+      <p className='mt-2 max-w-xl text-sm leading-6 text-muted-foreground'>
+        Published stories will appear here. Please check back soon.
+      </p>
+    </div>
+  );
+}
+
+function ArticlesFallback() {
+  return (
+    <div
+      aria-label='Loading articles'
+      className='grid gap-8 sm:grid-cols-2 lg:grid-cols-3'
+      role='status'
+    >
+      {Array.from({ length: 6 }, (_, index) => (
+        <div className='space-y-4 border-b border-border pb-6' key={index}>
+          <div className='aspect-3/2 animate-pulse rounded-md bg-muted' />
+          <div className='h-3 w-1/3 animate-pulse rounded bg-muted' />
+          <div className='h-7 w-4/5 animate-pulse rounded bg-muted' />
+          <div className='h-4 w-full animate-pulse rounded bg-muted' />
         </div>
-      )}
+      ))}
     </div>
   );
 }

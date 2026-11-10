@@ -8,8 +8,10 @@ import {
   primaryButtonClassName,
   textareaClassName,
 } from '@/components/admin/styles';
+import { ActionToast } from '@/components/ui/action-toast';
 import { toDateTimeLocalValue } from '@/lib/slug';
-import { useActionState, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useActionState, useEffect, useState } from 'react';
 
 type CategoryOption = {
   id: string;
@@ -41,9 +43,17 @@ export function ArticleForm({
   const action = saveArticleAction.bind(null, article?.id ?? null);
   const [state, formAction, pending] = useActionState(action, null);
   const [status, setStatus] = useState(article?.status ?? 'DRAFT');
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state?.redirectTo) {
+      router.push(state.redirectTo);
+    }
+  }, [router, state?.redirectTo]);
 
   return (
     <form action={formAction} className='flex flex-col gap-6'>
+      <ActionToast state={state} />
       <div className='flex flex-col gap-2'>
         <label className={labelClassName} htmlFor='title'>
           Title

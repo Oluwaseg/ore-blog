@@ -1,18 +1,14 @@
 import { listCategories } from '@/features/articles/public';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Categories',
   description: 'Browse articles by topic.',
 };
 
-export default async function CategoriesPage() {
-  const categories = await listCategories();
-  const visibleCategories = categories.filter(
-    (category) => category._count.articles > 0
-  );
-
+export default function CategoriesPage() {
   return (
     <div className='space-y-10'>
       <header className='max-w-3xl border-b border-border pb-8'>
@@ -26,8 +22,22 @@ export default async function CategoriesPage() {
           Explore published work grouped by subject.
         </p>
       </header>
+      <Suspense fallback={<CategoriesFallback />}>
+        <CategoryList />
+      </Suspense>
+    </div>
+  );
+}
 
-      {visibleCategories.length ? (
+async function CategoryList() {
+  const categories = await listCategories();
+  const visibleCategories = categories.filter(
+    (category) => category._count.articles > 0
+  );
+
+  return (
+    <>
+      {visibleCategories.length > 0 ? (
         <ul className='border-y border-border'>
           {visibleCategories.map((category) => (
             <li
@@ -59,6 +69,26 @@ export default async function CategoriesPage() {
           Categories will appear here as articles are published.
         </p>
       )}
+    </>
+  );
+}
+
+function CategoriesFallback() {
+  return (
+    <div
+      aria-label='Loading categories'
+      className='border-y border-border'
+      role='status'
+    >
+      {Array.from({ length: 4 }, (_, index) => (
+        <div
+          className='flex items-center justify-between border-b border-border py-5 last:border-0'
+          key={index}
+        >
+          <div className='h-7 w-48 animate-pulse rounded bg-muted' />
+          <div className='h-4 w-20 animate-pulse rounded bg-muted' />
+        </div>
+      ))}
     </div>
   );
 }

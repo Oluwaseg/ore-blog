@@ -9,6 +9,7 @@ import { formatDate, plainText } from '@/lib/plain-text';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -31,7 +32,15 @@ export async function generateMetadata({
   };
 }
 
-export default async function ArticlePage({ params }: ArticlePageProps) {
+export default function ArticlePage({ params }: ArticlePageProps) {
+  return (
+    <Suspense fallback={<ArticleFallback />}>
+      <ArticleContent params={params} />
+    </Suspense>
+  );
+}
+
+async function ArticleContent({ params }: ArticlePageProps) {
   const { slug } = await params;
   const article = await getPublishedArticle(slug);
 
@@ -181,6 +190,27 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <CommentForm articleId={article.id} />
         </div>
       </section>
+    </article>
+  );
+}
+
+function ArticleFallback() {
+  return (
+    <article
+      aria-label='Loading article'
+      className='mx-auto w-full max-w-3xl space-y-8'
+      role='status'
+    >
+      <div className='space-y-4 border-b border-border pb-8'>
+        <div className='h-4 w-40 animate-pulse rounded bg-muted' />
+        <div className='h-12 w-4/5 animate-pulse rounded bg-muted' />
+        <div className='h-5 w-3/5 animate-pulse rounded bg-muted' />
+      </div>
+      <div className='space-y-4'>
+        {Array.from({ length: 7 }, (_, index) => (
+          <div className='h-4 animate-pulse rounded bg-muted' key={index} />
+        ))}
+      </div>
     </article>
   );
 }

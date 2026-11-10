@@ -2,6 +2,7 @@ import { ArticleCard } from '@/components/public/article-card';
 import { SearchForm } from '@/components/public/search-form';
 import { searchPublishedArticles } from '@/features/articles/public';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Search',
@@ -12,13 +13,7 @@ type SearchPageProps = {
   searchParams: Promise<{ q?: string | string[] }>;
 };
 
-export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const queryValue = (await searchParams).q;
-  const query = (
-    Array.isArray(queryValue) ? queryValue[0] : queryValue || ''
-  ).trim();
-  const articles = query ? await searchPublishedArticles(query) : [];
-
+export default function SearchPage({ searchParams }: SearchPageProps) {
   return (
     <div className='space-y-10'>
       <header className='max-w-3xl border-b border-border pb-8'>
@@ -31,10 +26,26 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         <p className='mt-4 text-base leading-7 text-muted-foreground'>
           Find published articles by title, excerpt, or content.
         </p>
-        <div className='mt-6 max-w-xl'>
-          <SearchForm defaultValue={query} inputId='search-page-query' />
-        </div>
       </header>
+      <Suspense fallback={<SearchFallback />}>
+        <SearchResults searchParams={searchParams} />
+      </Suspense>
+    </div>
+  );
+}
+
+async function SearchResults({ searchParams }: SearchPageProps) {
+  const queryValue = (await searchParams).q;
+  const query = (
+    Array.isArray(queryValue) ? queryValue[0] : queryValue || ''
+  ).trim();
+  const articles = query ? await searchPublishedArticles(query) : [];
+
+  return (
+    <div className='space-y-8'>
+      <div className='max-w-xl'>
+        <SearchForm defaultValue={query} inputId='search-page-query' />
+      </div>
 
       {!query ? (
         <p className='text-sm text-muted-foreground'>
@@ -60,6 +71,19 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           No published articles matched “{query}”. Try another search.
         </p>
       )}
+    </div>
+  );
+}
+
+function SearchFallback() {
+  return (
+    <div
+      aria-label='Loading search'
+      className='max-w-xl space-y-8'
+      role='status'
+    >
+      <div className='h-10 animate-pulse rounded-md bg-muted' />
+      <div className='h-4 w-2/3 animate-pulse rounded bg-muted' />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import {
   primaryButtonClassName,
   textareaClassName,
 } from '@/components/admin/styles';
+import { ActionToast } from '@/components/ui/action-toast';
 import { useActionState } from 'react';
 
 export function CommentForm({ articleId }: { articleId: string }) {
@@ -14,6 +15,7 @@ export function CommentForm({ articleId }: { articleId: string }) {
 
   return (
     <form action={formAction} className='flex flex-col gap-4'>
+      <ActionToast state={state} />
       <input name='articleId' type='hidden' value={articleId} />
       <input
         autoComplete='off'

@@ -1,15 +1,18 @@
-"use client";
+'use client';
 
-import { secondaryButtonClassName } from "@/components/admin/styles";
+import { secondaryButtonClassName } from '@/components/admin/styles';
+import { toast } from 'sonner';
 
 export function ConfirmActionButton({
   action,
   label,
   message,
+  successMessage,
 }: {
   action: () => Promise<void>;
   label: string;
   message: string;
+  successMessage?: string;
 }) {
   return (
     <form
@@ -18,10 +21,19 @@ export function ConfirmActionButton({
           return;
         }
 
-        await action();
+        try {
+          await action();
+          toast.success(successMessage ?? `${label} completed.`);
+        } catch (error) {
+          toast.error(
+            error instanceof Error
+              ? error.message
+              : `Could not ${label.toLowerCase()}.`
+          );
+        }
       }}
     >
-      <button className={secondaryButtonClassName} type="submit">
+      <button className={secondaryButtonClassName} type='submit'>
         {label}
       </button>
     </form>

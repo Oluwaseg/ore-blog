@@ -99,12 +99,14 @@ model Comment {
   username    String?
   email       String?
   content     String
+  submissionKey String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
 
   @@index([articleId, createdAt])
+  @@index([submissionKey, createdAt])
 }
 
 model Reaction {

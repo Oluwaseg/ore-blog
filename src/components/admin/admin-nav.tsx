@@ -1,20 +1,30 @@
 'use client';
 
+import {
+  BarChart3,
+  FileText,
+  FolderOpen,
+  Image,
+  LayoutDashboard,
+  Mail,
+  MessageSquare,
+  Settings,
+} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  { href: '/admin', label: 'Overview' },
-  { href: '/admin/articles', label: 'Articles' },
-  { href: '/admin/categories', label: 'Categories' },
-  { href: '/admin/media', label: 'Media' },
-  { href: '/admin/subscribers', label: 'Subscribers' },
-  { href: '/admin/comments', label: 'Comments' },
-  { href: '/admin/analytics', label: 'Analytics' },
-  { href: '/admin/settings', label: 'Settings' },
+  { href: '/admin', label: 'Overview', icon: LayoutDashboard },
+  { href: '/admin/articles', label: 'Articles', icon: FileText },
+  { href: '/admin/categories', label: 'Categories', icon: FolderOpen },
+  { href: '/admin/media', label: 'Media', icon: Image },
+  { href: '/admin/subscribers', label: 'Subscribers', icon: Mail },
+  { href: '/admin/comments', label: 'Comments', icon: MessageSquare },
+  { href: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
+  { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
-export function AdminNav() {
+export function AdminNav({ collapsed = false }: { collapsed?: boolean }) {
   const pathname = usePathname();
 
   return (
@@ -28,15 +38,20 @@ export function AdminNav() {
         return (
           <Link
             aria-current={isActive ? 'page' : undefined}
+            aria-label={collapsed ? link.label : undefined}
             className={
               isActive
-                ? 'rounded-md bg-sidebar-accent px-3 py-2 text-sm font-medium text-sidebar-accent-foreground'
-                : 'rounded-md px-3 py-2 text-sm text-sidebar-foreground/75 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+                ? `flex items-center gap-3 rounded-md bg-sidebar-accent px-3 py-2 text-sm font-medium text-sidebar-accent-foreground ${collapsed ? 'md:justify-center md:px-0' : ''}`
+                : `flex items-center gap-3 rounded-md px-3 py-2 text-sm text-sidebar-foreground/75 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground ${collapsed ? 'md:justify-center md:px-0' : ''}`
             }
             href={link.href}
             key={link.href}
+            title={collapsed ? link.label : undefined}
           >
-            {link.label}
+            <link.icon aria-hidden='true' size={16} />
+            <span className={collapsed ? 'md:hidden' : undefined}>
+              {link.label}
+            </span>
           </Link>
         );
       })}

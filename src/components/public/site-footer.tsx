@@ -19,7 +19,8 @@ export function SiteFooter() {
             Newsletter
           </p>
           <p className='mb-4 mt-2 text-sm text-muted-foreground'>
-            Get new articles by email. You can unsubscribe at any time.
+            Get new articles by email. Every welcome email includes an
+            unsubscribe link.
           </p>
           <NewsletterForm />
         </div>

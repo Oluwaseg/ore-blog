@@ -1,42 +1,43 @@
-"use server";
+'use server';
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { uniqueArticleSlug } from "@/features/articles/slug";
-import { requireAdmin } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { isBlankHtml, parseTagNames, slugify } from "@/lib/slug";
-import { articleFormSchema } from "@/lib/validations/article";
+import { uniqueArticleSlug } from '@/features/articles/slug';
+import { requireAdmin } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { isBlankHtml, parseTagNames, slugify } from '@/lib/slug';
+import { articleFormSchema } from '@/lib/validations/article';
+import { revalidatePath } from 'next/cache';
 
 export type ArticleFormState = {
-  error: string;
+  error?: string;
+  success?: string;
+  redirectTo?: string;
 } | null;
 
 function formValues(formData: FormData) {
   return {
-    title: formData.get("title"),
-    slug: formData.get("slug") || undefined,
-    excerpt: formData.get("excerpt") || undefined,
-    content: formData.get("content"),
+    title: formData.get('title'),
+    slug: formData.get('slug') || undefined,
+    excerpt: formData.get('excerpt') || undefined,
+    content: formData.get('content'),
     featuredImage:
-      String(formData.get("featuredImage") || "").trim() || undefined,
-    status: formData.get("status"),
-    scheduledAt: formData.get("scheduledAt") || undefined,
-    metaTitle: formData.get("metaTitle") || undefined,
-    metaDescription: formData.get("metaDescription") || undefined,
-    categoryIds: formData.getAll("categoryIds").filter(Boolean),
-    tags: formData.get("tags") || undefined,
+      String(formData.get('featuredImage') || '').trim() || undefined,
+    status: formData.get('status'),
+    scheduledAt: formData.get('scheduledAt') || undefined,
+    metaTitle: formData.get('metaTitle') || undefined,
+    metaDescription: formData.get('metaDescription') || undefined,
+    categoryIds: formData.getAll('categoryIds').filter(Boolean),
+    tags: formData.get('tags') || undefined,
   };
 }
 
 function publishingFields(
-  status: "DRAFT" | "SCHEDULED" | "PUBLISHED" | "ARCHIVED",
-  scheduledAt?: string,
+  status: 'DRAFT' | 'SCHEDULED' | 'PUBLISHED' | 'ARCHIVED',
+  scheduledAt?: string
 ) {
   const scheduledDate = scheduledAt ? new Date(scheduledAt) : null;
   const now = new Date();
 
-  if (status === "PUBLISHED") {
+  if (status === 'PUBLISHED') {
     return {
       status,
       publishedAt: now,
@@ -44,15 +45,15 @@ function publishingFields(
     };
   }
 
-  if (status === "SCHEDULED" && scheduledDate && scheduledDate <= now) {
+  if (status === 'SCHEDULED' && scheduledDate && scheduledDate <= now) {
     return {
-      status: "PUBLISHED" as const,
+      status: 'PUBLISHED' as const,
       publishedAt: now,
       scheduledAt: null,
     };
   }
 
-  if (status === "SCHEDULED") {
+  if (status === 'SCHEDULED') {
     return {
       status,
       publishedAt: null,
@@ -77,7 +78,7 @@ async function syncTags(articleId: string, tagNames: string[]) {
         update: { name },
         create: { name, slug },
       });
-    }),
+    })
   );
 
   await db.articleTag.deleteMany({ where: { articleId } });
@@ -102,7 +103,7 @@ async function syncCategories(articleId: string, categoryIds: string[]) {
 export async function saveArticleAction(
   articleId: string | null,
   _prevState: ArticleFormState,
-  formData: FormData,
+  formData: FormData
 ): Promise<ArticleFormState> {
   await requireAdmin();
 
@@ -112,24 +113,24 @@ export async function saveArticleAction(
     return {
       error:
         parsed.error.issues[0]?.message ??
-        "Check the article fields and try again.",
+        'Check the article fields and try again.',
     };
   }
 
   if (isBlankHtml(parsed.data.content)) {
-    return { error: "Content is required." };
+    return { error: 'Content is required.' };
   }
 
   const slug = await uniqueArticleSlug(
     parsed.data.title,
     parsed.data.slug,
-    articleId ?? undefined,
+    articleId ?? undefined
   );
   const publishing = publishingFields(
     parsed.data.status,
-    parsed.data.scheduledAt,
+    parsed.data.scheduledAt
   );
-  const tagNames = parseTagNames(parsed.data.tags ?? "");
+  const tagNames = parseTagNames(parsed.data.tags ?? '');
 
   const data = {
     title: parsed.data.title,
@@ -152,9 +153,12 @@ export async function saveArticleAction(
   await syncCategories(article.id, parsed.data.categoryIds);
   await syncTags(article.id, tagNames);
 
-  revalidatePath("/admin");
-  revalidatePath("/admin/articles");
-  redirect(`/admin/articles/${article.id}/edit`);
+  revalidatePath('/admin');
+  revalidatePath('/admin/articles');
+  return {
+    success: articleId ? 'Article updated.' : 'Article created.',
+    redirectTo: `/admin/articles/${article.id}/edit`,
+  };
 }
 
 export async function deleteArticleAction(articleId: string) {
@@ -164,7 +168,6 @@ export async function deleteArticleAction(articleId: string) {
     where: { id: articleId },
   });
 
-  revalidatePath("/admin");
-  revalidatePath("/admin/articles");
-  redirect("/admin/articles");
+  revalidatePath('/admin');
+  revalidatePath('/admin/articles');
 }

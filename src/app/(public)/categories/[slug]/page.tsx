@@ -3,6 +3,7 @@ import { getCategoryBySlug } from '@/features/articles/public';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
@@ -22,7 +23,15 @@ export async function generateMetadata({
     : { title: 'Category not found' };
 }
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
+export default function CategoryPage({ params }: CategoryPageProps) {
+  return (
+    <Suspense fallback={<CategoryFallback />}>
+      <CategoryContent params={params} />
+    </Suspense>
+  );
+}
+
+async function CategoryContent({ params }: CategoryPageProps) {
   const { slug } = await params;
   const category = await getCategoryBySlug(slug);
 
@@ -65,6 +74,26 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           There are no published articles in this category yet.
         </p>
       )}
+    </div>
+  );
+}
+
+function CategoryFallback() {
+  return (
+    <div aria-label='Loading category' className='space-y-8' role='status'>
+      <div className='space-y-4 border-b border-border pb-8'>
+        <div className='h-4 w-28 animate-pulse rounded bg-muted' />
+        <div className='h-12 w-2/3 animate-pulse rounded bg-muted' />
+      </div>
+      <div className='grid gap-8 sm:grid-cols-2 lg:grid-cols-3'>
+        {Array.from({ length: 3 }, (_, index) => (
+          <div className='space-y-4' key={index}>
+            <div className='aspect-3/2 animate-pulse rounded-md bg-muted' />
+            <div className='h-6 w-4/5 animate-pulse rounded bg-muted' />
+            <div className='h-4 w-full animate-pulse rounded bg-muted' />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

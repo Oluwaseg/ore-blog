@@ -1,13 +1,23 @@
 'use client';
 
 import { loginAction } from '@/actions/auth';
-import { useActionState } from 'react';
+import { ActionToast } from '@/components/ui/action-toast';
+import { useRouter } from 'next/navigation';
+import { useActionState, useEffect } from 'react';
 
 export function LoginForm() {
   const [state, formAction, pending] = useActionState(loginAction, null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state?.success) {
+      router.push('/admin');
+    }
+  }, [router, state?.success]);
 
   return (
     <form action={formAction} className='flex w-full flex-col gap-5'>
+      <ActionToast state={state} />
       <div className='flex flex-col gap-2'>
         <label className='text-sm font-medium' htmlFor='email'>
           Email

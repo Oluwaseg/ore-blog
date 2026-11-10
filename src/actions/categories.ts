@@ -1,40 +1,41 @@
-"use server";
+'use server';
 
-import { revalidatePath } from "next/cache";
-import { uniqueCategorySlug } from "@/features/articles/slug";
-import { requireAdmin } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { categoryFormSchema } from "@/lib/validations/category";
+import { uniqueCategorySlug } from '@/features/articles/slug';
+import { requireAdmin } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { categoryFormSchema } from '@/lib/validations/category';
+import { revalidatePath } from 'next/cache';
 
 export type CategoryFormState = {
-  error: string;
+  error?: string;
+  success?: boolean;
 } | null;
 
 export async function saveCategoryAction(
   categoryId: string | null,
   _prevState: CategoryFormState,
-  formData: FormData,
+  formData: FormData
 ): Promise<CategoryFormState> {
   await requireAdmin();
 
   const parsed = categoryFormSchema.safeParse({
-    name: formData.get("name"),
-    slug: formData.get("slug") || undefined,
-    description: formData.get("description") || undefined,
+    name: formData.get('name'),
+    slug: formData.get('slug') || undefined,
+    description: formData.get('description') || undefined,
   });
 
   if (!parsed.success) {
     return {
       error:
         parsed.error.issues[0]?.message ??
-        "Check the category fields and try again.",
+        'Check the category fields and try again.',
     };
   }
 
   const slug = await uniqueCategorySlug(
     parsed.data.name,
     parsed.data.slug,
-    categoryId ?? undefined,
+    categoryId ?? undefined
   );
   const data = {
     name: parsed.data.name,
@@ -51,9 +52,9 @@ export async function saveCategoryAction(
     await db.category.create({ data });
   }
 
-  revalidatePath("/admin/categories");
-  revalidatePath("/admin/articles");
-  return null;
+  revalidatePath('/admin/categories');
+  revalidatePath('/admin/articles');
+  return { success: true };
 }
 
 export async function deleteCategoryAction(categoryId: string) {
@@ -63,6 +64,6 @@ export async function deleteCategoryAction(categoryId: string) {
     where: { id: categoryId },
   });
 
-  revalidatePath("/admin/categories");
-  revalidatePath("/admin/articles");
+  revalidatePath('/admin/categories');
+  revalidatePath('/admin/articles');
 }

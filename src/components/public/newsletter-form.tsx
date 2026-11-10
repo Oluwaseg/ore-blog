@@ -1,6 +1,7 @@
 'use client';
 
 import { subscribeNewsletterAction } from '@/actions/engagement';
+import { ActionToast } from '@/components/ui/action-toast';
 import { useActionState } from 'react';
 
 export function NewsletterForm() {
@@ -11,6 +12,7 @@ export function NewsletterForm() {
 
   return (
     <form action={formAction} className='flex flex-col gap-3'>
+      <ActionToast state={state} />
       <label className='sr-only' htmlFor='newsletter-email'>
         Email
       </label>

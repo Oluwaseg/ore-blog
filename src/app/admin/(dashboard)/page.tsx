@@ -1,27 +1,33 @@
+import { DashboardStats } from '@/components/admin/dashboard-stats';
+import { getDashboardStats } from '@/features/admin/dashboard';
 import { db } from '@/lib/db';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Dashboard',
 };
 
-export default async function AdminDashboardPage() {
-  const [
-    totalArticles,
-    publishedArticles,
-    draftArticles,
-    scheduledArticles,
-    subscribers,
-    views,
-    recentArticles,
-  ] = await Promise.all([
-    db.article.count(),
-    db.article.count({ where: { status: 'PUBLISHED' } }),
-    db.article.count({ where: { status: 'DRAFT' } }),
-    db.article.count({ where: { status: 'SCHEDULED' } }),
-    db.newsletterSubscriber.count({ where: { status: 'ACTIVE' } }),
-    db.articleView.count(),
+export default function AdminDashboardPage() {
+  return (
+    <main className='flex flex-col gap-8'>
+      <div>
+        <h1 className='text-2xl font-semibold tracking-tight'>Overview</h1>
+        <p className='mt-2 text-sm text-muted-foreground'>
+          Publication activity at a glance.
+        </p>
+      </div>
+      <Suspense fallback={<DashboardFallback />}>
+        <DashboardContent />
+      </Suspense>
+    </main>
+  );
+}
+
+async function DashboardContent() {
+  const [initialStats, recentArticles] = await Promise.all([
+    getDashboardStats(),
     db.article.findMany({
       orderBy: { updatedAt: 'desc' },
       take: 5,
@@ -34,34 +40,9 @@ export default async function AdminDashboardPage() {
     }),
   ]);
 
-  const stats = [
-    { label: 'Total articles', value: totalArticles },
-    { label: 'Published', value: publishedArticles },
-    { label: 'Drafts', value: draftArticles },
-    { label: 'Scheduled', value: scheduledArticles },
-    { label: 'Subscribers', value: subscribers },
-    { label: 'Article views', value: views },
-  ];
-
   return (
-    <main className='flex flex-col gap-8'>
-      <div>
-        <h1 className='text-2xl font-semibold tracking-tight'>Overview</h1>
-        <p className='mt-2 text-sm text-muted-foreground'>
-          Publication activity at a glance.
-        </p>
-      </div>
-      <section className='grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
-        {stats.map((stat) => (
-          <div
-            className='rounded-md border border-border bg-card p-5'
-            key={stat.label}
-          >
-            <p className='text-sm text-muted-foreground'>{stat.label}</p>
-            <p className='mt-2 text-3xl font-semibold'>{stat.value}</p>
-          </div>
-        ))}
-      </section>
+    <>
+      <DashboardStats initialStats={initialStats} />
       <section className='flex flex-col gap-4'>
         <div className='flex items-center justify-between gap-4'>
           <h2 className='text-lg font-semibold'>Recent articles</h2>
@@ -75,9 +56,12 @@ export default async function AdminDashboardPage() {
         {recentArticles.length === 0 ? (
           <p className='text-sm text-muted-foreground'>No articles yet.</p>
         ) : (
-          <ul className='divide-y divide-border rounded-md border border-border bg-card'>
+          <ul className='rounded-md border border-border bg-card'>
             {recentArticles.map((article) => (
-              <li key={article.id}>
+              <li
+                className='border-b border-border last:border-0'
+                key={article.id}
+              >
                 <Link
                   className='flex items-center justify-between gap-4 px-4 py-3 text-sm transition-colors hover:bg-muted'
                   href={`/admin/articles/${article.id}/edit`}
@@ -92,6 +76,29 @@ export default async function AdminDashboardPage() {
           </ul>
         )}
       </section>
-    </main>
+    </>
+  );
+}
+
+function DashboardFallback() {
+  return (
+    <div
+      aria-label='Loading dashboard'
+      className='flex flex-col gap-8'
+      role='status'
+    >
+      <div className='grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
+        {Array.from({ length: 6 }, (_, index) => (
+          <div
+            className='space-y-3 rounded-md border border-border bg-card p-5'
+            key={index}
+          >
+            <div className='h-4 w-28 animate-pulse rounded bg-muted' />
+            <div className='h-9 w-16 animate-pulse rounded bg-muted' />
+          </div>
+        ))}
+      </div>
+      <div className='h-40 animate-pulse rounded-md border border-border bg-card' />
+    </div>
   );
 }

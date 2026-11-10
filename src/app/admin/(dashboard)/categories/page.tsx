@@ -1,14 +1,29 @@
-import { deleteCategoryAction } from '@/actions/categories';
-import { CategoryForm } from '@/components/admin/category-form';
-import { ConfirmActionButton } from '@/components/admin/confirm-action-button';
+import { CategoryManager } from '@/components/admin/category-manager';
 import { db } from '@/lib/db';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Categories',
 };
 
-export default async function AdminCategoriesPage() {
+export default function AdminCategoriesPage() {
+  return (
+    <main className='flex flex-col gap-6'>
+      <header>
+        <h1 className='text-2xl font-semibold tracking-tight'>Categories</h1>
+        <p className='mt-2 text-sm text-muted-foreground'>
+          Create and organize categories used to group articles.
+        </p>
+      </header>
+      <Suspense fallback={<CategoriesFallback />}>
+        <CategoryRows />
+      </Suspense>
+    </main>
+  );
+}
+
+async function CategoryRows() {
   const categories = await db.category.findMany({
     orderBy: { name: 'asc' },
     include: {
@@ -17,50 +32,37 @@ export default async function AdminCategoriesPage() {
   });
 
   return (
-    <main className='grid gap-8 xl:grid-cols-[20rem_1fr]'>
-      <section className='flex flex-col gap-4'>
-        <div>
-          <h1 className='text-2xl font-semibold tracking-tight'>Categories</h1>
-          <p className='mt-2 text-sm text-muted-foreground'>
-            Group articles for the public website.
-          </p>
+    <CategoryManager
+      categories={categories.map((category) => ({
+        id: category.id,
+        name: category.name,
+        slug: category.slug,
+        description: category.description,
+        articleCount: category._count.articles,
+      }))}
+    />
+  );
+}
+
+function CategoriesFallback() {
+  return (
+    <div
+      aria-label='Loading categories'
+      className='overflow-hidden rounded-md border border-border bg-card'
+      role='status'
+    >
+      <div className='h-11 border-b border-border bg-muted' />
+      {Array.from({ length: 5 }, (_, index) => (
+        <div
+          className='flex min-h-12 items-center gap-8 border-b border-border px-4 last:border-0'
+          key={index}
+        >
+          <div className='h-4 flex-1 animate-pulse rounded bg-muted' />
+          <div className='h-4 w-28 animate-pulse rounded bg-muted' />
+          <div className='h-4 w-12 animate-pulse rounded bg-muted' />
+          <div className='h-4 w-32 animate-pulse rounded bg-muted' />
         </div>
-        <CategoryForm />
-      </section>
-      <section className='flex flex-col gap-4'>
-        {categories.length === 0 ? (
-          <p className='text-sm text-muted-foreground'>No categories yet.</p>
-        ) : (
-          <ul className='flex flex-col gap-4'>
-            {categories.map((category) => (
-              <li
-                className='rounded-md border border-border bg-card p-5'
-                key={category.id}
-              >
-                <div className='mb-4 flex items-start justify-between gap-4'>
-                  <p className='text-sm text-muted-foreground'>
-                    {category._count.articles} article
-                    {category._count.articles === 1 ? '' : 's'}
-                  </p>
-                  <ConfirmActionButton
-                    action={deleteCategoryAction.bind(null, category.id)}
-                    label='Delete'
-                    message='Delete this category?'
-                  />
-                </div>
-                <CategoryForm
-                  category={{
-                    id: category.id,
-                    name: category.name,
-                    slug: category.slug,
-                    description: category.description ?? '',
-                  }}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-    </main>
+      ))}
+    </div>
   );
 }
