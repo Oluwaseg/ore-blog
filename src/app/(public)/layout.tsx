@@ -16,6 +16,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+import { PublicationLoader } from '@/components/public/publication-loader';
+
 export default function PublicLayout({
   children,
 }: Readonly<{
@@ -23,13 +25,13 @@ export default function PublicLayout({
 }>) {
   return (
     <div className='flex min-h-screen flex-col bg-background text-foreground'>
-      <Suspense fallback={<div className='h-24 border-b border-border' />}>
+      <Suspense fallback={<PublicationLoader compact />}>
         <SiteHeader />
       </Suspense>
       <main className='mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 py-10 sm:px-8 sm:py-14 lg:px-10'>
         {children}
       </main>
-      <Suspense fallback={<div className='h-56 border-t border-border' />}>
+      <Suspense fallback={<PublicationLoader compact={false} />}>
         <SiteFooter />
       </Suspense>
     </div>

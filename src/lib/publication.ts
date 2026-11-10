@@ -15,7 +15,7 @@ export async function getPublicationSettings() {
 
   return {
     name: settings?.publicationName ?? publication.name,
-    logoUrl: settings?.logoUrl ?? '',
+    logoUrl: settings?.logoUrl ?? '/logo.png',
     instagramUrl: settings?.instagramUrl ?? '',
     tagline: settings?.tagline ?? publication.tagline,
     description: settings?.description ?? publication.description,
