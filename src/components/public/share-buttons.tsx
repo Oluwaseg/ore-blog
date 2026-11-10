@@ -7,9 +7,20 @@ import { useEffect, useState } from 'react';
 export function ShareButtons({ title }: { title: string }) {
   const [url, setUrl] = useState('');
   const [copied, setCopied] = useState(false);
+  const [supportsNativeShare, setSupportsNativeShare] = useState(false);
 
   useEffect(() => {
     setUrl(window.location.href);
+
+    const hasNativeShare =
+      typeof navigator !== 'undefined' &&
+      'share' in navigator &&
+      typeof navigator.share === 'function';
+    const isTouchDevice =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(pointer: coarse)').matches;
+
+    setSupportsNativeShare(hasNativeShare && isTouchDevice);
   }, []);
 
   const copyLink = async () => {
@@ -28,6 +39,20 @@ export function ShareButtons({ title }: { title: string }) {
 
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
+
+  const handleNativeShare = async () => {
+    if (!supportsNativeShare || !url) return;
+
+    try {
+      await navigator.share({
+        title,
+        text: title,
+        url,
+      });
+    } catch {
+      // User dismissed the native share sheet.
+    }
+  };
 
   const shareLinks = [
     {
@@ -64,6 +89,25 @@ export function ShareButtons({ title }: { title: string }) {
       </div>
 
       <div className='flex flex-wrap items-center gap-2'>
+        {supportsNativeShare ? (
+          <button
+            type='button'
+            onClick={handleNativeShare}
+            aria-label='Share article using your device'
+            title='Share'
+            className='
+              inline-flex items-center gap-2 rounded-full border border-primary/30
+              bg-accent px-3 py-2 text-sm font-medium text-primary
+              transition-all duration-200 hover:-translate-y-0.5
+              hover:bg-primary hover:text-primary-foreground
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
+            '
+          >
+            <Share2 size={16} />
+            <span>Share</span>
+          </button>
+        ) : null}
+
         {shareLinks.map((item) => (
           <a
             key={item.name}
