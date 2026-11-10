@@ -1,13 +1,19 @@
-export function SearchForm({ defaultValue = '' }: { defaultValue?: string }) {
+export function SearchForm({
+  defaultValue = '',
+  inputId = 'site-search',
+}: {
+  defaultValue?: string;
+  inputId?: string;
+}) {
   return (
     <form action='/search' className='flex w-full max-w-xs gap-2'>
-      <label className='sr-only' htmlFor='site-search'>
+      <label className='sr-only' htmlFor={inputId}>
         Search articles
       </label>
       <input
-        className='h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring'
+        className='h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring'
         defaultValue={defaultValue}
-        id='site-search'
+        id={inputId}
         name='q'
         placeholder='Search articles'
         type='search'

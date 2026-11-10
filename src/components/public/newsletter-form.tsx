@@ -16,7 +16,7 @@ export function NewsletterForm() {
       </label>
       <div className='flex gap-2'>
         <input
-          className='h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring'
+          className='h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring'
           id='newsletter-email'
           name='email'
           placeholder='you@example.com'

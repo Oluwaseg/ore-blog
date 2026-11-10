@@ -72,9 +72,12 @@ export default function HomePage() {
           </p>
         </div>
 
-        <ul className='divide-y divide-border border-y border-border'>
+        <ul className='border-y border-border'>
           {topics.map((topic, index) => (
-            <li key={topic} className='flex items-center gap-5 py-4 sm:py-5'>
+            <li
+              key={topic}
+              className='flex items-center gap-5 border-b border-border py-4 last:border-0 sm:py-5'
+            >
               <span className='font-mono text-xs text-primary'>
                 0{index + 1}
               </span>

@@ -62,7 +62,7 @@ export default async function AdminArticlesPage() {
                     <p className='text-muted-foreground'>/{article.slug}</p>
                   </td>
                   <td className='px-4 py-3'>{article.status}</td>
-                  <td className='px-4 py-3'>
+                  <td className='px-4 py-3 font-mono text-xs'>
                     {article.updatedAt.toLocaleDateString()}
                   </td>
                   <td className='px-4 py-3'>{article._count.views}</td>
