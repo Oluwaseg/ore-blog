@@ -16,9 +16,9 @@ export function NewsletterForm() {
       <label className='sr-only' htmlFor='newsletter-email'>
         Email
       </label>
-      <div className='flex gap-2'>
+      <div className='flex items-center gap-3 border-b border-foreground/60 transition-colors focus-within:border-primary'>
         <input
-          className='h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring'
+          className='h-12 w-full bg-transparent font-heading text-xl text-foreground outline-none placeholder:italic'
           id='newsletter-email'
           name='email'
           placeholder='you@example.com'
@@ -26,11 +26,11 @@ export function NewsletterForm() {
           type='email'
         />
         <button
-          className='h-10 rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-70'
+          className='h-12 shrink-0 text-[0.6875rem] uppercase tracking-[0.2em] text-primary transition-colors hover:text-foreground disabled:opacity-60'
           disabled={pending}
           type='submit'
         >
-          {pending ? 'Saving...' : 'Subscribe'}
+          {pending ? 'Saving…' : 'Subscribe →'}
         </button>
       </div>
       <input
@@ -45,7 +45,9 @@ export function NewsletterForm() {
         </p>
       ) : null}
       {state?.success ? (
-        <p className='text-sm text-chart-4'>{state.success}</p>
+        <p className='font-heading text-base italic text-primary'>
+          {state.success}
+        </p>
       ) : null}
     </form>
   );
