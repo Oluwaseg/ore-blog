@@ -1,10 +1,8 @@
 'use client';
 
 import {
-  BarChart3,
   FileText,
   FolderOpen,
-  Image,
   LayoutDashboard,
   Mail,
   MessageSquare,
@@ -17,10 +15,8 @@ const links = [
   { href: '/admin', label: 'Overview', icon: LayoutDashboard },
   { href: '/admin/articles', label: 'Articles', icon: FileText },
   { href: '/admin/categories', label: 'Categories', icon: FolderOpen },
-  { href: '/admin/media', label: 'Media', icon: Image },
   { href: '/admin/subscribers', label: 'Subscribers', icon: Mail },
   { href: '/admin/comments', label: 'Comments', icon: MessageSquare },
-  { href: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 

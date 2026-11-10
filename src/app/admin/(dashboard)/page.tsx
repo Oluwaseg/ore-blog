@@ -1,4 +1,7 @@
+import { AnalyticsCharts } from '@/components/admin/analytics-charts';
+import { AnalyticsRangeControls } from '@/components/admin/analytics-range-controls';
 import { DashboardStats } from '@/components/admin/dashboard-stats';
+import { getAnalyticsData } from '@/features/admin/analytics';
 import { getDashboardStats } from '@/features/admin/dashboard';
 import { db } from '@/lib/db';
 import type { Metadata } from 'next';
@@ -9,7 +12,17 @@ export const metadata: Metadata = {
   title: 'Dashboard',
 };
 
-export default function AdminDashboardPage() {
+type DashboardPageProps = {
+  searchParams: Promise<{
+    days?: string | string[];
+    from?: string | string[];
+    to?: string | string[];
+  }>;
+};
+
+export default function AdminDashboardPage({
+  searchParams,
+}: DashboardPageProps) {
   return (
     <main className='flex flex-col gap-8'>
       <div>
@@ -19,14 +32,23 @@ export default function AdminDashboardPage() {
         </p>
       </div>
       <Suspense fallback={<DashboardFallback />}>
-        <DashboardContent />
+        <DashboardContent searchParams={searchParams} />
       </Suspense>
     </main>
   );
 }
 
-async function DashboardContent() {
-  const [initialStats, recentArticles] = await Promise.all([
+async function DashboardContent({ searchParams }: DashboardPageProps) {
+  const search = await searchParams;
+  const firstValue = (value?: string | string[]) =>
+    Array.isArray(value) ? value[0] : value;
+  const range = {
+    days: firstValue(search.days),
+    from: firstValue(search.from),
+    to: firstValue(search.to),
+  };
+
+  const [initialStats, recentArticles, analytics] = await Promise.all([
     getDashboardStats(),
     db.article.findMany({
       orderBy: { updatedAt: 'desc' },
@@ -38,11 +60,35 @@ async function DashboardContent() {
         updatedAt: true,
       },
     }),
+    getAnalyticsData(range),
   ]);
 
   return (
     <>
       <DashboardStats initialStats={initialStats} />
+      <section
+        aria-labelledby='analytics-heading'
+        className='flex flex-col gap-6'
+      >
+        <div>
+          <p className='font-mono text-xs uppercase tracking-wide text-muted-foreground'>
+            Publication performance
+          </p>
+          <h2 className='mt-2 text-lg font-semibold' id='analytics-heading'>
+            Analytics
+          </h2>
+          <p className='mt-1 text-sm text-muted-foreground'>
+            Views and newsletter signups for{' '}
+            {analytics.rangeLabel.toLowerCase()}.
+          </p>
+        </div>
+        <AnalyticsRangeControls
+          days={analytics.presetDays}
+          from={analytics.isCustomRange ? analytics.rangeStart : undefined}
+          to={analytics.isCustomRange ? analytics.rangeEnd : undefined}
+        />
+        <AnalyticsCharts data={analytics} />
+      </section>
       <section className='flex flex-col gap-4'>
         <div className='flex items-center justify-between gap-4'>
           <h2 className='text-lg font-semibold'>Recent articles</h2>

@@ -1,5 +1,20 @@
 import { SiteFooter } from '@/components/public/site-footer';
 import { SiteHeader } from '@/components/public/site-header';
+import { getPublicationSettings } from '@/lib/publication';
+import type { Metadata } from 'next';
+import { Suspense } from 'react';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const publication = await getPublicationSettings();
+
+  return {
+    title: {
+      default: publication.metaTitle,
+      template: `%s | ${publication.name}`,
+    },
+    description: publication.metaDescription,
+  };
+}
 
 export default function PublicLayout({
   children,
@@ -8,11 +23,15 @@ export default function PublicLayout({
 }>) {
   return (
     <div className='flex min-h-screen flex-col bg-background text-foreground'>
-      <SiteHeader />
+      <Suspense fallback={<div className='h-24 border-b border-border' />}>
+        <SiteHeader />
+      </Suspense>
       <main className='mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 py-10 sm:px-8 sm:py-14 lg:px-10'>
         {children}
       </main>
-      <SiteFooter />
+      <Suspense fallback={<div className='h-56 border-t border-border' />}>
+        <SiteFooter />
+      </Suspense>
     </div>
   );
 }

@@ -11,11 +11,15 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-export const db =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    adapter: new PrismaPg({ connectionString }),
-  });
+const cachedPrisma = globalForPrisma.prisma;
+const hasPublicationSettingsDelegate =
+  cachedPrisma && 'publicationSettings' in cachedPrisma;
+
+export const db = hasPublicationSettingsDelegate
+  ? cachedPrisma
+  : new PrismaClient({
+      adapter: new PrismaPg({ connectionString }),
+    });
 
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = db;

@@ -27,6 +27,17 @@ model Admin {
   updatedAt    DateTime @updatedAt
 }
 
+model PublicationSettings {
+  id              String   @id @default("default")
+  publicationName String   @default("Publication name pending")
+  tagline         String   @default("Articles, insights, and perspectives on important social issues.")
+  description     String   @default("A digital publication dedicated to sharing articles, insights, stories, and perspectives on important social issues.")
+  logoUrl         String?  @db.Text
+  metaTitle       String?
+  metaDescription String?
+  updatedAt       DateTime @updatedAt
+}
+
 model Article {
   id              String        @id @default(cuid())
   title           String

@@ -1,5 +1,6 @@
-import { publication } from '@/lib/publication';
+import { getPublicationSettings } from '@/lib/publication';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 const topics = [
   'Sexual violence awareness',
@@ -19,9 +20,13 @@ export default function HomePage() {
           <h1 className='max-w-4xl font-heading text-5xl leading-[1.08] text-foreground sm:text-6xl lg:text-7xl'>
             Stories that deserve to be heard.
           </h1>
-          <p className='max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8'>
-            {publication.description}
-          </p>
+          <Suspense
+            fallback={
+              <p className='h-14 max-w-2xl animate-pulse rounded bg-muted' />
+            }
+          >
+            <PublicationDescription />
+          </Suspense>
           <div className='flex flex-wrap items-center gap-3 pt-1'>
             <Link
               className='inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90'
@@ -110,5 +115,15 @@ export default function HomePage() {
         </Link>
       </section>
     </div>
+  );
+}
+
+async function PublicationDescription() {
+  const publication = await getPublicationSettings();
+
+  return (
+    <p className='max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8'>
+      {publication.description}
+    </p>
   );
 }

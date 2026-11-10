@@ -1,13 +1,22 @@
 import { NewsletterForm } from '@/components/public/newsletter-form';
-import { publication } from '@/lib/publication';
+import { getPublicationSettings } from '@/lib/publication';
 import Link from 'next/link';
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const publication = await getPublicationSettings();
+
   return (
     <footer className='border-t border-border bg-card'>
       <div className='mx-auto grid w-full max-w-6xl gap-8 px-6 py-10 sm:px-8 md:grid-cols-[1.2fr_1fr] lg:px-10'>
         <div>
-          <p className='font-heading text-lg text-card-foreground'>
+          {publication.logoUrl ? (
+            <img
+              alt={publication.name}
+              className='max-h-12 max-w-48 object-contain'
+              src={publication.logoUrl}
+            />
+          ) : null}
+          <p className='mt-2 font-heading text-lg text-card-foreground'>
             {publication.name}
           </p>
           <p className='mt-2 max-w-md text-sm leading-6 text-muted-foreground'>
