@@ -1,7 +1,9 @@
 'use client';
 
 import {
+  BookOpen,
   FileText,
+  Flag,
   FolderOpen,
   LayoutDashboard,
   Mail,
@@ -17,6 +19,8 @@ const links = [
   { href: '/admin/categories', label: 'Categories', icon: FolderOpen },
   { href: '/admin/subscribers', label: 'Subscribers', icon: Mail },
   { href: '/admin/comments', label: 'Comments', icon: MessageSquare },
+  { href: '/admin/reports', label: 'Reports', icon: Flag },
+  { href: '/admin/stories', label: 'Story submissions', icon: BookOpen },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 

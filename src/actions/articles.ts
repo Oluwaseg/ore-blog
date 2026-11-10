@@ -18,6 +18,7 @@ function formValues(formData: FormData) {
     title: formData.get('title'),
     slug: formData.get('slug') || undefined,
     excerpt: formData.get('excerpt') || undefined,
+    contentWarning: formData.get('contentWarning') || undefined,
     content: formData.get('content'),
     featuredImage:
       String(formData.get('featuredImage') || '').trim() || undefined,
@@ -136,6 +137,7 @@ export async function saveArticleAction(
     title: parsed.data.title,
     slug,
     excerpt: parsed.data.excerpt || null,
+    contentWarning: parsed.data.contentWarning || null,
     content: parsed.data.content,
     featuredImage: parsed.data.featuredImage || null,
     metaTitle: parsed.data.metaTitle || null,

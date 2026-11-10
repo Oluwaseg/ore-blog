@@ -1,7 +1,7 @@
 import { AdminAccountSettingsForm } from '@/components/admin/admin-account-settings-form';
 import { PublicationSettingsForm } from '@/components/admin/publication-settings-form';
 import { requireAdmin } from '@/lib/auth';
-import { publication, getPublicationSettings } from '@/lib/publication';
+import { getPublicationSettings, publication } from '@/lib/publication';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
@@ -45,6 +45,7 @@ async function SettingsContent() {
           settings={{
             publicationName: savedPublication.name || publication.name,
             logoUrl: savedPublication.logoUrl,
+            instagramUrl: savedPublication.instagramUrl,
             tagline: savedPublication.tagline || publication.tagline,
             description:
               savedPublication.description || publication.description,

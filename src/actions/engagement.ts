@@ -9,6 +9,7 @@ import {
 } from '@/features/newsletter/unsubscribe-token';
 import { db } from '@/lib/db';
 import {
+  sendContactEnquiryEmail,
   sendNewsletterUnsubscribeEmail,
   sendNewsletterWelcomeEmail,
 } from '@/lib/newsletter-email';
@@ -240,6 +241,9 @@ export async function sendContactAction(
   const parsed = contactSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
+    topic: formData.get('topic'),
+    organization:
+      String(formData.get('organization') ?? '').trim() || undefined,
     message: formData.get('message'),
   });
 
@@ -249,5 +253,17 @@ export async function sendContactAction(
     };
   }
 
-  return { success: 'Message received. Thank you.' };
+  try {
+    const sent = await sendContactEnquiryEmail(parsed.data);
+    return {
+      success: sent
+        ? 'Your message has been sent. Thank you for getting in touch.'
+        : 'Your message is ready, but email delivery is not configured yet.',
+    };
+  } catch (error) {
+    console.error('Contact enquiry email could not be sent.', error);
+    return {
+      error: 'We could not send your message just now. Please try again later.',
+    };
+  }
 }

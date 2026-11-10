@@ -64,137 +64,116 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* =========================================
-   LIGHT THEME
-   Editorial Plum & Warm Paper
-========================================= */
-
 :root {
   color-scheme: light;
-
   --radius: 0.625rem;
-
-  /* Typography */
   --font-editorial: var(--font-newsreader);
 
   /* Base */
-  --background: oklch(0.978 0.009 78);
-  --foreground: oklch(0.255 0.018 20);
+  --background: oklch(0.978 0.012 295);
+  --foreground: oklch(0.245 0.025 295);
 
   /* Surfaces */
-  --card: oklch(0.995 0.004 80);
-  --card-foreground: oklch(0.255 0.018 20);
+  --card: oklch(0.995 0.006 295);
+  --card-foreground: oklch(0.245 0.025 295);
+  --popover: oklch(0.995 0.006 295);
+  --popover-foreground: oklch(0.245 0.025 295);
 
-  --popover: oklch(0.995 0.004 80);
-  --popover-foreground: oklch(0.255 0.018 20);
+  /* Primary: deep plum */
+  --primary: oklch(0.405 0.14 300);
+  --primary-foreground: oklch(0.985 0.006 295);
 
-  /* Brand: Aubergine */
-  --primary: oklch(0.445 0.085 351);
-  --primary-foreground: oklch(0.985 0.006 80);
+  /* Secondary: lavender */
+  --secondary: oklch(0.93 0.035 295);
+  --secondary-foreground: oklch(0.32 0.09 300);
 
-  /* Secondary: Warm taupe */
-  --secondary: oklch(0.935 0.016 68);
-  --secondary-foreground: oklch(0.32 0.025 25);
+  /* Muted */
+  --muted: oklch(0.95 0.015 295);
+  --muted-foreground: oklch(0.5 0.025 295);
 
-  /* Muted surfaces */
-  --muted: oklch(0.951 0.012 75);
-  --muted-foreground: oklch(0.515 0.018 35);
-
-  /* Accent: Dusty rose */
-  --accent: oklch(0.925 0.027 355);
-  --accent-foreground: oklch(0.37 0.065 350);
+  /* Accent: soft lilac */
+  --accent: oklch(0.915 0.055 295);
+  --accent-foreground: oklch(0.3 0.09 300);
 
   /* Destructive */
   --destructive: oklch(0.53 0.17 25);
 
-  /* Borders & inputs */
-  --border: oklch(0.895 0.012 65);
-  --input: oklch(0.895 0.012 65);
-  --ring: oklch(0.56 0.075 350);
+  /* Borders and inputs */
+  --border: oklch(0.89 0.02 295);
+  --input: oklch(0.89 0.02 295);
+  --ring: oklch(0.55 0.12 300);
 
   /* Charts */
-  --chart-1: oklch(0.48 0.095 351);
-  --chart-2: oklch(0.61 0.075 15);
-  --chart-3: oklch(0.63 0.075 82);
-  --chart-4: oklch(0.55 0.045 150);
-  --chart-5: oklch(0.52 0.025 245);
+  --chart-1: oklch(0.48 0.15 300);
+  --chart-2: oklch(0.6 0.12 285);
+  --chart-3: oklch(0.68 0.09 315);
+  --chart-4: oklch(0.55 0.07 265);
+  --chart-5: oklch(0.72 0.07 295);
 
   /* Sidebar */
-  --sidebar: oklch(0.963 0.009 75);
-  --sidebar-foreground: oklch(0.255 0.018 20);
-
-  --sidebar-primary: oklch(0.445 0.085 351);
-  --sidebar-primary-foreground: oklch(0.985 0.006 80);
-
-  --sidebar-accent: oklch(0.925 0.027 355);
-  --sidebar-accent-foreground: oklch(0.37 0.065 350);
-
-  --sidebar-border: oklch(0.895 0.012 65);
-  --sidebar-ring: oklch(0.56 0.075 350);
+  --sidebar: oklch(0.965 0.012 295);
+  --sidebar-foreground: oklch(0.245 0.025 295);
+  --sidebar-primary: oklch(0.405 0.14 300);
+  --sidebar-primary-foreground: oklch(0.985 0.006 295);
+  --sidebar-accent: oklch(0.915 0.055 295);
+  --sidebar-accent-foreground: oklch(0.3 0.09 300);
+  --sidebar-border: oklch(0.89 0.02 295);
+  --sidebar-ring: oklch(0.55 0.12 300);
 }
-
-/* =========================================
-   DARK THEME
-   Plum Ink & Muted Rose
-========================================= */
 
 .dark {
   color-scheme: dark;
 
   /* Base */
-  --background: oklch(0.205 0.012 15);
-  --foreground: oklch(0.94 0.009 75);
+  --background: oklch(0.19 0.025 295);
+  --foreground: oklch(0.94 0.012 295);
 
   /* Surfaces */
-  --card: oklch(0.235 0.014 15);
-  --card-foreground: oklch(0.94 0.009 75);
+  --card: oklch(0.23 0.03 295);
+  --card-foreground: oklch(0.94 0.012 295);
+  --popover: oklch(0.26 0.035 295);
+  --popover-foreground: oklch(0.94 0.012 295);
 
-  --popover: oklch(0.255 0.015 15);
-  --popover-foreground: oklch(0.94 0.009 75);
-
-  /* Brand: Soft plum */
-  --primary: oklch(0.72 0.075 350);
-  --primary-foreground: oklch(0.22 0.02 15);
+  /* Primary: luminous lavender */
+  --primary: oklch(0.76 0.12 295);
+  --primary-foreground: oklch(0.2 0.04 295);
 
   /* Secondary */
-  --secondary: oklch(0.3 0.016 25);
-  --secondary-foreground: oklch(0.92 0.009 75);
+  --secondary: oklch(0.31 0.06 295);
+  --secondary-foreground: oklch(0.93 0.025 295);
 
-  /* Muted surfaces */
-  --muted: oklch(0.285 0.014 20);
-  --muted-foreground: oklch(0.72 0.014 45);
+  /* Muted */
+  --muted: oklch(0.28 0.025 295);
+  --muted-foreground: oklch(0.72 0.025 295);
 
-  /* Accent: Muted rose */
-  --accent: oklch(0.34 0.035 350);
-  --accent-foreground: oklch(0.93 0.012 75);
+  /* Accent */
+  --accent: oklch(0.35 0.08 295);
+  --accent-foreground: oklch(0.94 0.025 295);
 
   /* Destructive */
   --destructive: oklch(0.68 0.16 24);
 
-  /* Borders & inputs */
-  --border: oklch(0.36 0.014 25);
-  --input: oklch(0.36 0.014 25);
-  --ring: oklch(0.68 0.075 350);
+  /* Borders and inputs */
+  --border: oklch(0.36 0.03 295);
+  --input: oklch(0.36 0.03 295);
+  --ring: oklch(0.68 0.12 295);
 
   /* Charts */
-  --chart-1: oklch(0.72 0.075 350);
-  --chart-2: oklch(0.73 0.075 15);
-  --chart-3: oklch(0.76 0.075 82);
-  --chart-4: oklch(0.72 0.055 150);
-  --chart-5: oklch(0.72 0.045 245);
+  --chart-1: oklch(0.76 0.12 295);
+  --chart-2: oklch(0.77 0.1 280);
+  --chart-3: oklch(0.78 0.09 315);
+  --chart-4: oklch(0.7 0.08 265);
+  --chart-5: oklch(0.83 0.07 295);
 
   /* Sidebar */
-  --sidebar: oklch(0.19 0.012 15);
-  --sidebar-foreground: oklch(0.94 0.009 75);
-
-  --sidebar-primary: oklch(0.72 0.075 350);
-  --sidebar-primary-foreground: oklch(0.22 0.02 15);
-
-  --sidebar-accent: oklch(0.34 0.035 350);
-  --sidebar-accent-foreground: oklch(0.93 0.012 75);
-
-  --sidebar-border: oklch(0.36 0.014 25);
-  --sidebar-ring: oklch(0.68 0.075 350);
+  --sidebar: oklch(0.17 0.025 295);
+  --sidebar-foreground: oklch(0.94 0.012 295);
+  --sidebar-primary: oklch(0.76 0.12 295);
+  --sidebar-primary-foreground: oklch(0.2 0.04 295);
+  --sidebar-accent: oklch(0.35 0.08 295);
+  --sidebar-accent-foreground: oklch(0.94 0.025 295);
+  --sidebar-border: oklch(0.36 0.03 295);
+  --sidebar-ring: oklch(0.68 0.12 295);
 }
 
 /* =========================================

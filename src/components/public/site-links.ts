@@ -2,6 +2,8 @@ export const links = [
   { href: '/', label: 'Home' },
   { href: '/articles', label: 'Articles' },
   { href: '/categories', label: 'Categories' },
+  { href: '/stories/submit', label: 'Share your story' },
+  { href: '/privacy', label: 'Privacy' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];

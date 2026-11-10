@@ -1,5 +1,6 @@
 import { ArticleViewTracker } from '@/components/public/article-view-tracker';
 import { CommentForm } from '@/components/public/comment-form';
+import { ContentReportForm } from '@/components/public/content-report-form';
 import { LikeButton } from '@/components/public/like-button';
 import { ShareButtons } from '@/components/public/share-buttons';
 import { getPublishedArticle } from '@/features/articles/public';
@@ -97,6 +98,9 @@ async function ArticleContent({ params }: ArticlePageProps) {
         <h1 className='font-heading text-4xl leading-tight text-foreground sm:text-5xl'>
           {article.title}
         </h1>
+        <p className='mt-3 text-sm text-muted-foreground'>
+          By Beyond the Statute
+        </p>
         {article.excerpt ? (
           <p className='mt-5 text-lg leading-8 text-muted-foreground'>
             {article.excerpt}
@@ -110,6 +114,20 @@ async function ArticleContent({ params }: ArticlePageProps) {
           />
         ) : null}
       </header>
+
+      {article.contentWarning ? (
+        <aside
+          aria-label='Content warning'
+          className='mt-8 border-l-2 border-primary bg-accent/50 px-5 py-4'
+        >
+          <p className='font-mono text-xs uppercase tracking-wide text-accent-foreground'>
+            Content warning
+          </p>
+          <p className='mt-1 text-sm leading-6 text-foreground'>
+            {article.contentWarning}
+          </p>
+        </aside>
+      ) : null}
 
       <div
         className='article-content'
@@ -143,6 +161,9 @@ async function ArticleContent({ params }: ArticlePageProps) {
         />
         <ShareButtons title={article.title} />
       </section>
+      <div className='mt-3'>
+        <ContentReportForm articleId={article.id} />
+      </div>
 
       <section aria-labelledby='comments-heading' className='mt-12'>
         <h2
@@ -175,6 +196,9 @@ async function ArticleContent({ params }: ArticlePageProps) {
                 <p className='mt-2 whitespace-pre-wrap text-sm leading-6 text-muted-foreground'>
                   {comment.content}
                 </p>
+                <div className='mt-3'>
+                  <ContentReportForm commentId={comment.id} />
+                </div>
               </li>
             ))}
           </ol>

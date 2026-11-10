@@ -1,18 +1,19 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const articleStatusSchema = z.enum([
-  "DRAFT",
-  "SCHEDULED",
-  "PUBLISHED",
-  "ARCHIVED",
+  'DRAFT',
+  'SCHEDULED',
+  'PUBLISHED',
+  'ARCHIVED',
 ]);
 
 export const articleFormSchema = z
   .object({
-    title: z.string().trim().min(1, "Title is required").max(200),
+    title: z.string().trim().min(1, 'Title is required').max(200),
     slug: z.string().trim().max(80).optional(),
     excerpt: z.string().trim().max(500).optional(),
-    content: z.string().min(1, "Content is required"),
+    contentWarning: z.string().trim().max(180).optional(),
+    content: z.string().min(1, 'Content is required'),
     featuredImage: z.url().optional(),
     status: articleStatusSchema,
     scheduledAt: z.string().optional(),
@@ -22,11 +23,11 @@ export const articleFormSchema = z
     tags: z.string().optional(),
   })
   .superRefine((value, ctx) => {
-    if (value.status === "SCHEDULED" && !value.scheduledAt) {
+    if (value.status === 'SCHEDULED' && !value.scheduledAt) {
       ctx.addIssue({
-        code: "custom",
-        path: ["scheduledAt"],
-        message: "A schedule date is required.",
+        code: 'custom',
+        path: ['scheduledAt'],
+        message: 'A schedule date is required.',
       });
     }
   });

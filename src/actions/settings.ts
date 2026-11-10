@@ -1,9 +1,9 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { hashPassword, verifyPassword } from '@/features/auth/password';
 import { requireAdmin } from '@/lib/auth';
-import { verifyPassword, hashPassword } from '@/features/auth/password';
 import { db } from '@/lib/db';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 export type SettingsFormState = {
@@ -37,6 +37,22 @@ const publicationSettingsSchema = z.object({
         return false;
       }
     }, 'Enter an HTTP(S) image URL or upload a supported image.'),
+  instagramUrl: z
+    .string()
+    .trim()
+    .max(300)
+    .optional()
+    .refine((value) => {
+      if (!value) return true;
+      try {
+        return (
+          new URL(value).hostname === 'instagram.com' ||
+          new URL(value).hostname === 'www.instagram.com'
+        );
+      } catch {
+        return false;
+      }
+    }, 'Enter a valid instagram.com URL.'),
 });
 
 const accountSettingsSchema = z.object({
@@ -63,6 +79,7 @@ export async function savePublicationSettingsAction(
     metaTitle: formData.get('metaTitle') || undefined,
     metaDescription: formData.get('metaDescription') || undefined,
     logoUrl: formData.get('logoUrl') || undefined,
+    instagramUrl: formData.get('instagramUrl') || undefined,
   });
 
   if (!parsed.success) {
@@ -79,6 +96,7 @@ export async function savePublicationSettingsAction(
       metaTitle: parsed.data.metaTitle || null,
       metaDescription: parsed.data.metaDescription || null,
       logoUrl: parsed.data.logoUrl || null,
+      instagramUrl: parsed.data.instagramUrl || null,
     },
     create: {
       id: 'default',
@@ -86,6 +104,7 @@ export async function savePublicationSettingsAction(
       metaTitle: parsed.data.metaTitle || null,
       metaDescription: parsed.data.metaDescription || null,
       logoUrl: parsed.data.logoUrl || null,
+      instagramUrl: parsed.data.instagramUrl || null,
     },
   });
 

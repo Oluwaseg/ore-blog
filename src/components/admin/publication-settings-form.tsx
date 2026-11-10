@@ -18,6 +18,7 @@ type PublicationSettingsValues = {
   metaTitle: string;
   metaDescription: string;
   logoUrl: string;
+  instagramUrl: string;
 };
 
 export function PublicationSettingsForm({
@@ -157,6 +158,19 @@ export function PublicationSettingsForm({
           name='description'
           required
           rows={4}
+        />
+      </div>
+      <div className='flex flex-col gap-2'>
+        <label className={labelClassName} htmlFor='publication-instagram'>
+          Instagram URL
+        </label>
+        <input
+          className={inputClassName}
+          defaultValue={settings.instagramUrl}
+          id='publication-instagram'
+          name='instagramUrl'
+          placeholder='https://www.instagram.com/your-handle'
+          type='url'
         />
       </div>
       <div className='border-t border-border pt-5'>

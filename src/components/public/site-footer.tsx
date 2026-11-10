@@ -1,6 +1,6 @@
 import { NewsletterForm } from '@/components/public/newsletter-form';
-import { getPublicationSettings } from '@/lib/publication';
 import { links, pad } from '@/components/public/site-links';
+import { getPublicationSettings } from '@/lib/publication';
 import Link from 'next/link';
 
 export async function SiteFooter() {
@@ -64,6 +64,30 @@ export async function SiteFooter() {
                 {publication.description}
               </p>
             ) : null}
+            <div className='mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm'>
+              <a
+                className='text-primary underline-offset-4 hover:underline'
+                href='mailto:beyondthestatutee@gmail.com'
+              >
+                Email Beyond the Statute
+              </a>
+              {publication.instagramUrl ? (
+                <Link
+                  className='text-primary underline-offset-4 hover:underline'
+                  href={publication.instagramUrl}
+                  target='_blank'
+                  rel='noreferrer'
+                >
+                  Instagram
+                </Link>
+              ) : null}
+              <Link
+                className='text-primary underline-offset-4 hover:underline'
+                href='/stories/submit'
+              >
+                Share your story
+              </Link>
+            </div>
           </div>
 
           <nav

@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 
 const topics = [
-  'Sexual violence awareness',
-  'Education and prevention',
-  'Community care',
-  'Public accountability',
+  'Sexual violence and the law in practice',
+  'Experiences of male survivors and people with disabilities',
+  'Violence and abuse in religious settings',
+  'Rights, support, and pathways to justice',
 ];
 
 export default function HomePage() {
@@ -15,10 +15,10 @@ export default function HomePage() {
       <section className='grid gap-10 border-b border-border pb-12 sm:pb-16 lg:grid-cols-[1.35fr_0.65fr] lg:items-end lg:gap-16'>
         <div className='space-y-7'>
           <p className='text-xs font-semibold uppercase tracking-[0.2em] text-primary'>
-            Independent publication · Awareness · Education
+            Beyond the Statute · Legal research · Education · Advocacy
           </p>
           <h1 className='max-w-4xl font-heading text-5xl leading-[1.08] text-foreground sm:text-6xl lg:text-7xl'>
-            Stories that deserve to be heard.
+            What does the law promise, and what happens in practice?
           </h1>
           <Suspense
             fallback={
@@ -48,11 +48,11 @@ export default function HomePage() {
             Our focus
           </p>
           <p className='mt-3 font-heading text-2xl leading-snug text-foreground sm:text-3xl'>
-            Thoughtful perspectives on difficult conversations.
+            A trusted place to learn, question, and find clarity.
           </p>
           <p className='mt-4 text-sm leading-6 text-muted-foreground'>
-            Grounded in care, informed by evidence, and committed to making
-            knowledge accessible.
+            Survivor-centred, research-led perspectives on sexual and
+            gender-based violence, without victim blaming.
           </p>
         </aside>
       </section>
@@ -72,8 +72,8 @@ export default function HomePage() {
             What we cover
           </h2>
           <p className='mt-4 max-w-sm text-sm leading-6 text-muted-foreground'>
-            We bring together stories and ideas that help readers understand the
-            issues and imagine a more informed response.
+            We look beyond legislation to lived realities, overlooked questions,
+            and ways to make protections and support more meaningful.
           </p>
         </div>
 
@@ -100,11 +100,11 @@ export default function HomePage() {
             Read with care
           </p>
           <h2 className='mt-3 max-w-2xl font-heading text-3xl leading-tight text-foreground sm:text-4xl'>
-            Information can open the door to understanding.
+            Knowledge should make room for dignity, care, and justice.
           </h2>
           <p className='mt-4 max-w-2xl text-base leading-7 text-muted-foreground'>
-            Explore reporting, essays, and resources at your own pace. Our aim
-            is to make room for nuance, dignity, and meaningful change.
+            Explore legal research, case-law analysis, public education, and
+            survivor-centred commentary at your own pace.
           </p>
         </div>
         <Link

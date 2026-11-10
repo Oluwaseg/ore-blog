@@ -45,6 +45,7 @@ export default async function EditArticlePage({
           title: article.title,
           slug: article.slug,
           excerpt: article.excerpt ?? '',
+          contentWarning: article.contentWarning ?? '',
           content: article.content,
           featuredImage: article.featuredImage ?? '',
           status: article.status,

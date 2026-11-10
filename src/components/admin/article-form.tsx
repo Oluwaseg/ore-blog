@@ -23,6 +23,7 @@ type ArticleFormValues = {
   title: string;
   slug: string;
   excerpt: string;
+  contentWarning: string;
   content: string;
   featuredImage: string;
   status: 'DRAFT' | 'SCHEDULED' | 'PUBLISHED' | 'ARCHIVED';
@@ -89,6 +90,22 @@ export function ArticleForm({
           name='excerpt'
           rows={3}
         />
+      </div>
+      <div className='flex flex-col gap-2'>
+        <label className={labelClassName} htmlFor='contentWarning'>
+          Content warning (optional)
+        </label>
+        <input
+          className={inputClassName}
+          defaultValue={article?.contentWarning}
+          id='contentWarning'
+          maxLength={180}
+          name='contentWarning'
+          placeholder='For example: discussion of sexual violence'
+        />
+        <p className='text-xs text-muted-foreground'>
+          Shown before the article so readers can choose whether to continue.
+        </p>
       </div>
       <div className='flex flex-col gap-2'>
         <span className={labelClassName}>Content</span>
