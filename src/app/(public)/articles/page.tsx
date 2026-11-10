@@ -10,17 +10,11 @@ export const metadata: Metadata = {
 
 export default function ArticlesPage() {
   return (
-    <div className='space-y-10'>
-      <header className='max-w-3xl border-b border-border pb-8'>
-        <p className='text-xs font-semibold uppercase tracking-[0.2em] text-primary'>
-          The journal
-        </p>
-        <h1 className='mt-3 font-heading text-4xl leading-tight text-foreground sm:text-5xl'>
-          Articles
-        </h1>
-        <p className='mt-4 text-base leading-7 text-muted-foreground'>
-          Reporting, essays, and perspectives on awareness, education, and
-          community care.
+    <div className='space-y-8'>
+      <header className='flex flex-wrap items-baseline justify-between gap-2 border-b border-border pb-4'>
+        <h1 className='font-heading text-3xl text-foreground'>Articles</h1>
+        <p className='text-sm text-muted-foreground'>
+          Essays, notes &amp; dispatches
         </p>
       </header>
 
@@ -37,21 +31,16 @@ async function PublishedArticles() {
   return articles.length ? (
     <section
       aria-label='Published articles'
-      className='grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3'
+      className='grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3'
     >
       {articles.map((article) => (
         <ArticleCard article={article} key={article.id} />
       ))}
     </section>
   ) : (
-    <div className='border-l-2 border-primary/40 py-2 pl-5'>
-      <h2 className='font-heading text-2xl text-foreground'>
-        The journal is taking shape.
-      </h2>
-      <p className='mt-2 max-w-xl text-sm leading-6 text-muted-foreground'>
-        Published stories will appear here. Please check back soon.
-      </p>
-    </div>
+    <p className='py-10 text-sm text-muted-foreground'>
+      No stories yet. Please check back soon.
+    </p>
   );
 }
 
@@ -59,15 +48,14 @@ function ArticlesFallback() {
   return (
     <div
       aria-label='Loading articles'
-      className='grid gap-8 sm:grid-cols-2 lg:grid-cols-3'
+      className='grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3'
       role='status'
     >
-      {Array.from({ length: 6 }, (_, index) => (
-        <div className='space-y-4 border-b border-border pb-6' key={index}>
-          <div className='aspect-3/2 animate-pulse rounded-md bg-muted' />
-          <div className='h-3 w-1/3 animate-pulse rounded bg-muted' />
-          <div className='h-7 w-4/5 animate-pulse rounded bg-muted' />
-          <div className='h-4 w-full animate-pulse rounded bg-muted' />
+      {Array.from({ length: 6 }, (_, i) => (
+        <div className='space-y-3' key={i}>
+          <div className='aspect-[3/2] animate-pulse bg-muted' />
+          <div className='h-3 w-1/3 animate-pulse bg-muted' />
+          <div className='h-6 w-4/5 animate-pulse bg-muted' />
         </div>
       ))}
     </div>

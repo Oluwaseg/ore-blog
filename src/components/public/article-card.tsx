@@ -13,47 +13,51 @@ type ArticleCardArticle = {
 
 export function ArticleCard({ article }: { article: ArticleCardArticle }) {
   const summary = article.excerpt || plainText(article.content);
+  const category = article.categories[0]?.category;
 
   return (
-    <article className='flex flex-col gap-3 border-b border-border pb-6'>
+    <article className='group flex flex-col gap-3'>
       {article.featuredImage ? (
-        <Link href={`/articles/${article.slug}`}>
+        <Link
+          className='block overflow-hidden bg-muted'
+          href={`/articles/${article.slug}`}
+          tabIndex={-1}
+        >
           <img
             alt={article.title}
-            className='aspect-[3/2] w-full rounded-md object-cover'
+            className='aspect-[3/2] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]'
             src={article.featuredImage}
           />
         </Link>
       ) : null}
-      <div className='flex flex-wrap gap-2 font-mono text-xs uppercase tracking-wide text-muted-foreground'>
-        {article.categories.map((item) => (
+      <div className='flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted-foreground'>
+        {category ? (
           <Link
-            className='hover:text-primary'
-            href={`/categories/${item.category.slug}`}
-            key={item.category.slug}
+            className='text-primary hover:underline'
+            href={`/categories/${category.slug}`}
           >
-            {item.category.name}
+            {category.name}
           </Link>
-        ))}
+        ) : null}
+        {category && article.publishedAt ? <span aria-hidden>·</span> : null}
+        {article.publishedAt ? (
+          <time dateTime={article.publishedAt.toISOString()}>
+            {formatDate(article.publishedAt)}
+          </time>
+        ) : null}
       </div>
-      <h2 className='font-heading text-2xl leading-tight text-foreground'>
+      <h2 className='font-heading text-xl leading-snug text-foreground'>
         <Link
-          className='decoration-primary/40 underline-offset-4 hover:underline'
+          className='decoration-primary/40 underline-offset-4 group-hover:underline'
           href={`/articles/${article.slug}`}
         >
           {article.title}
         </Link>
       </h2>
-      {article.publishedAt ? (
-        <time
-          className='font-mono text-xs text-muted-foreground'
-          dateTime={article.publishedAt.toISOString()}
-        >
-          {formatDate(article.publishedAt)}
-        </time>
-      ) : null}
       {summary ? (
-        <p className='text-sm leading-6 text-muted-foreground'>{summary}</p>
+        <p className='line-clamp-2 text-sm leading-6 text-muted-foreground'>
+          {summary}
+        </p>
       ) : null}
     </article>
   );

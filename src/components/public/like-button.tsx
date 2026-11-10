@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState, useTransition } from "react";
-import { toggleReactionAction } from "@/actions/engagement";
+import { useState, useTransition } from 'react';
+import { toggleReactionAction } from '@/actions/engagement';
 
 export function LikeButton({
   articleId,
@@ -18,7 +18,7 @@ export function LikeButton({
 
   return (
     <button
-      className="text-sm font-medium underline-offset-4 hover:underline disabled:opacity-70"
+      className='text-sm font-medium underline-offset-4 hover:underline disabled:opacity-70'
       disabled={isPending}
       onClick={() => {
         setOptimisticLiked(!optimisticLiked);
@@ -27,9 +27,9 @@ export function LikeButton({
           await toggleReactionAction(articleId);
         });
       }}
-      type="button"
+      type='button'
     >
-      {optimisticLiked ? "Liked" : "Like"} · {optimisticCount}
+      {optimisticLiked ? 'Liked' : 'Like'} · {optimisticCount}
     </button>
   );
 }
