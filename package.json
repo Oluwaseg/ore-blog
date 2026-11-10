@@ -9,12 +9,22 @@
     "lint": "biome check",
     "format": "biome format --write",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev"
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@node-rs/argon2": "2.2.2",
     "@prisma/adapter-pg": "7.10.1",
     "@prisma/client": "7.10.1",
+    "@tiptap/extension-image": "3.33.0",
+    "@tiptap/extension-link": "3.33.0",
+    "@tiptap/extension-placeholder": "3.33.0",
+    "@tiptap/extension-text-align": "3.33.0",
+    "@tiptap/pm": "3.33.0",
+    "@tiptap/react": "3.33.0",
+    "@tiptap/starter-kit": "3.33.0",
     "dotenv": "18.0.10",
+    "jose": "6.2.16",
     "next": "16.4.2",
     "pg": "8.23.1",
     "react": "19.3.0",
@@ -30,6 +40,7 @@
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "prisma": "7.10.1",
+    "tsx": "4.23.15",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
