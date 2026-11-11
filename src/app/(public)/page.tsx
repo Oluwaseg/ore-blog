@@ -1,6 +1,11 @@
 import { getPublicationSettings } from '@/lib/publication';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Suspense } from 'react';
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+};
 
 const topics = [
   'Sexual violence and the law in practice',

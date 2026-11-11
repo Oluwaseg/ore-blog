@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: 'Contact',
   description:
     'Contact Beyond the Statute for general, partnership, media, or contribution enquiries.',
+  alternates: { canonical: '/contact' },
 };
 
 const reasons = [

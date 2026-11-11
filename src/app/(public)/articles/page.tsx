@@ -6,6 +6,7 @@ import { Suspense } from 'react';
 export const metadata: Metadata = {
   title: 'Articles',
   description: 'Read published articles and perspectives.',
+  alternates: { canonical: '/articles' },
 };
 
 export default function ArticlesPage() {

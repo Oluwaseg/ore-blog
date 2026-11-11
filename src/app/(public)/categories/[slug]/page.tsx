@@ -1,5 +1,6 @@
 import { ArticleCard } from '@/components/public/article-card';
 import { getCategoryBySlug } from '@/features/articles/public';
+import { getSiteUrl } from '@/lib/site-url';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -19,8 +20,14 @@ export async function generateMetadata({
     ? {
         title: category.name,
         description: category.description || `Articles in ${category.name}.`,
+        alternates: {
+          canonical: new URL(
+            `/categories/${category.slug}`,
+            getSiteUrl()
+          ).toString(),
+        },
       }
-    : { title: 'Category not found' };
+    : { title: 'Category not found', robots: { index: false, follow: false } };
 }
 
 export default function CategoryPage({ params }: CategoryPageProps) {

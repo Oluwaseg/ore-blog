@@ -1,17 +1,34 @@
 import { AccessibilitySettings } from '@/components/public/accessibility-settings';
 import { SiteFooter } from '@/components/public/site-footer';
 import { SiteHeader } from '@/components/public/site-header';
-import { publication } from '@/lib/publication';
+import { getPublicationSettings } from '@/lib/publication';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
-export const metadata: Metadata = {
-  title: {
-    default: publication.name,
-    template: `%s | ${publication.name}`,
-  },
-  description: publication.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getPublicationSettings();
+
+  return {
+    title: {
+      default: settings.metaTitle,
+      template: `%s | ${settings.name}`,
+    },
+    applicationName: settings.name,
+    description: settings.metaDescription,
+    openGraph: {
+      type: 'website',
+      locale: 'en_GB',
+      siteName: settings.name,
+      title: settings.metaTitle,
+      description: settings.metaDescription,
+    },
+    twitter: {
+      card: 'summary',
+      title: settings.metaTitle,
+      description: settings.metaDescription,
+    },
+  };
+}
 
 import { PublicationLoader } from '@/components/public/publication-loader';
 

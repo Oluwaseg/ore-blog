@@ -7,6 +7,7 @@ import { Suspense } from 'react';
 export const metadata: Metadata = {
   title: 'Search',
   description: 'Search published articles.',
+  robots: { index: false, follow: true },
 };
 
 type SearchPageProps = {

@@ -7,6 +7,7 @@ import { getPublishedArticle } from '@/features/articles/public';
 import { getVisitorId } from '@/features/engagement/visitor';
 import { db } from '@/lib/db';
 import { formatDate, plainText } from '@/lib/plain-text';
+import { getSiteUrl } from '@/lib/site-url';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -23,13 +24,36 @@ export async function generateMetadata({
   const article = await getPublishedArticle(slug);
 
   if (!article) {
-    return { title: 'Article not found' };
+    return {
+      title: 'Article not found',
+      robots: { index: false, follow: false },
+    };
   }
 
+  const title = article.metaTitle || article.title;
+  const description =
+    article.metaDescription || article.excerpt || plainText(article.content);
+  const url = new URL(`/articles/${article.slug}`, getSiteUrl()).toString();
+
   return {
-    title: article.metaTitle || article.title,
-    description:
-      article.metaDescription || article.excerpt || plainText(article.content),
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: 'article',
+      title,
+      description,
+      url,
+      publishedTime: article.publishedAt?.toISOString(),
+      modifiedTime: article.updatedAt.toISOString(),
+      images: article.featuredImage ? [article.featuredImage] : undefined,
+    },
+    twitter: {
+      card: article.featuredImage ? 'summary_large_image' : 'summary',
+      title,
+      description,
+      images: article.featuredImage ? [article.featuredImage] : undefined,
+    },
   };
 }
 

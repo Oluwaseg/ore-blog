@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'About',
   description:
     'Beyond the Statute is an independent legal research, education, and advocacy platform focused on sexual and gender-based violence.',
+  alternates: { canonical: '/about' },
 };
 
 const principles = [

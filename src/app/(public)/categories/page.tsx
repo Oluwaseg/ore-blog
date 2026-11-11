@@ -6,6 +6,7 @@ import { Suspense } from 'react';
 export const metadata: Metadata = {
   title: 'Categories',
   description: 'Browse articles by topic.',
+  alternates: { canonical: '/categories' },
 };
 
 export default function CategoriesPage() {
