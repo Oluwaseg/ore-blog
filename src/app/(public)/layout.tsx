@@ -1,3 +1,4 @@
+import { AccessibilitySettings } from '@/components/public/accessibility-settings';
 import { SiteFooter } from '@/components/public/site-footer';
 import { SiteHeader } from '@/components/public/site-header';
 import { publication } from '@/lib/publication';
@@ -20,7 +21,7 @@ export default function PublicLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className='flex min-h-screen flex-col bg-background text-foreground'>
+    <div className='public-site flex min-h-screen flex-col bg-background text-foreground'>
       <Suspense fallback={<PublicationLoader compact />}>
         <SiteHeader />
       </Suspense>
@@ -30,6 +31,7 @@ export default function PublicLayout({
       <Suspense fallback={<PublicationLoader compact={false} />}>
         <SiteFooter />
       </Suspense>
+      <AccessibilitySettings />
     </div>
   );
 }

@@ -205,6 +205,10 @@ textarea::placeholder {
   opacity: 1;
 }
 
+.accessibility-dialog::backdrop {
+  background: oklch(0.15 0.02 295 / 0.58);
+}
+
 @layer base {
   html {
     @apply font-sans;
@@ -290,6 +294,98 @@ textarea::placeholder {
   max-width: 100%;
   margin: 2rem 0;
   border-radius: var(--radius-sm);
+}
+
+.public-site[data-public-text-scale='0.9'] > header,
+.public-site[data-public-text-scale='0.9'] > main,
+.public-site[data-public-text-scale='0.9'] > footer {
+  zoom: 0.9;
+}
+
+.public-site[data-public-text-scale='1.1'] > header,
+.public-site[data-public-text-scale='1.1'] > main,
+.public-site[data-public-text-scale='1.1'] > footer {
+  zoom: 1.1;
+}
+
+.public-site[data-public-text-scale='1.2'] > header,
+.public-site[data-public-text-scale='1.2'] > main,
+.public-site[data-public-text-scale='1.2'] > footer {
+  zoom: 1.2;
+}
+
+.public-site[data-public-high-contrast] {
+  --background: #fff;
+  --foreground: #111;
+  --card: #fff;
+  --card-foreground: #111;
+  --muted: #f0f0f0;
+  --muted-foreground: #292929;
+  --border: #555;
+  --input: #555;
+  --primary: #39005f;
+  --primary-foreground: #fff;
+  --accent: #e8d8ff;
+  --accent-foreground: #1b0030;
+}
+
+.dark .public-site[data-public-high-contrast] {
+  --background: #000;
+  --foreground: #fff;
+  --card: #080808;
+  --card-foreground: #fff;
+  --muted: #181818;
+  --muted-foreground: #f0f0f0;
+  --border: #aaa;
+  --input: #aaa;
+  --primary: #e2c5ff;
+  --primary-foreground: #10001c;
+  --accent: #35144e;
+  --accent-foreground: #fff;
+}
+
+.public-site[data-public-color-mode='grayscale'] > header,
+.public-site[data-public-color-mode='grayscale'] > main,
+.public-site[data-public-color-mode='grayscale'] > footer {
+  filter: grayscale(1);
+}
+
+.public-site[data-public-color-mode='reduced'] > header,
+.public-site[data-public-color-mode='reduced'] > main,
+.public-site[data-public-color-mode='reduced'] > footer {
+  filter: saturate(0.55);
+}
+
+.public-site[data-public-readable-font],
+.public-site[data-public-readable-font] * {
+  font-family: Arial, Helvetica, sans-serif !important;
+  letter-spacing: normal !important;
+}
+
+.public-site[data-public-highlight-links] a:not([class*='rounded-full']) {
+  text-decoration: underline !important;
+  text-decoration-thickness: 0.12em !important;
+  text-underline-offset: 0.18em !important;
+}
+
+.public-site[data-public-reduce-motion] *,
+.public-site[data-public-reduce-motion] *::before,
+.public-site[data-public-reduce-motion] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-site *,
+  .public-site *::before,
+  .public-site *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Append to the end of your globals.css — mobile index animations */
