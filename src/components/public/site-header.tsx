@@ -48,7 +48,7 @@ export async function SiteHeader() {
         <div className='flex items-center justify-between border-b border-border py-2.5 text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground'>
           <span>{date}</span>
           <span className='hidden font-heading text-[0.8125rem] normal-case italic tracking-normal lg:inline'>
-            Essays, notes &amp; dispatches
+            Research · Rights · Lived realities
           </span>
           <ThemeToggle />
         </div>

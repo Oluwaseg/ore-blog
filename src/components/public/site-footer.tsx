@@ -121,7 +121,7 @@ export async function SiteFooter() {
             © {year} {publication.name}
           </span>
           <span className='font-heading text-sm normal-case italic tracking-normal'>
-            Set in Newsreader &amp; DM Sans
+            Research, rights, and the realities between them.
           </span>
         </div>
       </div>

@@ -11,7 +11,13 @@ type ArticleCardArticle = {
   categories: { category: { name: string; slug: string } }[];
 };
 
-export function ArticleCard({ article }: { article: ArticleCardArticle }) {
+export function ArticleCard({
+  article,
+  index,
+}: {
+  article: ArticleCardArticle;
+  index?: number;
+}) {
   const summary = article.excerpt || plainText(article.content);
   const category = article.categories[0]?.category;
 
@@ -25,12 +31,17 @@ export function ArticleCard({ article }: { article: ArticleCardArticle }) {
         >
           <img
             alt={article.title}
-            className='aspect-[3/2] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]'
+            className='aspect-3/2 w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]'
             src={article.featuredImage}
           />
         </Link>
       ) : null}
       <div className='flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted-foreground'>
+        {index !== undefined ? (
+          <span className='font-mono tabular-nums text-primary'>
+            {String(index).padStart(2, '0')}
+          </span>
+        ) : null}
         {category ? (
           <Link
             className='text-primary hover:underline'

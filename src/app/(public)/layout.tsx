@@ -1,20 +1,16 @@
 import { SiteFooter } from '@/components/public/site-footer';
 import { SiteHeader } from '@/components/public/site-header';
-import { getPublicationSettings } from '@/lib/publication';
+import { publication } from '@/lib/publication';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const publication = await getPublicationSettings();
-
-  return {
-    title: {
-      default: publication.metaTitle,
-      template: `%s | ${publication.name}`,
-    },
-    description: publication.metaDescription,
-  };
-}
+export const metadata: Metadata = {
+  title: {
+    default: publication.name,
+    template: `%s | ${publication.name}`,
+  },
+  description: publication.description,
+};
 
 import { PublicationLoader } from '@/components/public/publication-loader';
 
