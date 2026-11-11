@@ -2,22 +2,85 @@
 
 import type { AnalyticsData } from '@/features/admin/analytics';
 import ReactECharts from 'echarts-for-react';
+import { useEffect, useState } from 'react';
+
+type ChartStyles = {
+  text: string;
+  muted: string;
+  border: string;
+  primary: string;
+  accent: string;
+  surface: string;
+  fontFamily: string;
+};
+
+const FALLBACK_STYLES: ChartStyles = {
+  text: '#3f3546',
+  muted: '#807688',
+  border: '#ded7e5',
+  primary: '#684078',
+  accent: '#a56e99',
+  surface: '#fff',
+  fontFamily: 'sans-serif',
+};
+
+function readChartStyles(): ChartStyles {
+  const root = document.documentElement;
+  const computed = getComputedStyle(root);
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  const resolveColor = (token: string) => {
+    const color = computed.getPropertyValue(token).trim();
+    if (!context || !color) return color || '#000';
+
+    context.clearRect(0, 0, 1, 1);
+    context.fillStyle = '#000';
+    context.fillStyle = color;
+    context.fillRect(0, 0, 1, 1);
+    const [red, green, blue] = context.getImageData(0, 0, 1, 1).data;
+    return `rgb(${red} ${green} ${blue})`;
+  };
+
+  return {
+    text: resolveColor('--foreground'),
+    muted: resolveColor('--muted-foreground'),
+    border: resolveColor('--border'),
+    primary: resolveColor('--chart-1'),
+    accent: resolveColor('--chart-3'),
+    surface: resolveColor('--popover'),
+    fontFamily:
+      computed.getPropertyValue('--font-dm-sans').trim() || 'sans-serif',
+  };
+}
+
+function useChartStyles() {
+  const [styles, setStyles] = useState(FALLBACK_STYLES);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const updateStyles = () => setStyles(readChartStyles());
+    updateStyles();
+
+    const observer = new MutationObserver(updateStyles);
+    observer.observe(root, {
+      attributes: true,
+      attributeFilter: ['class', 'style', 'data-theme'],
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  return styles;
+}
 
 export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
-  const styles = {
-    text: 'var(--foreground)',
-    muted: 'var(--muted-foreground)',
-    border: 'var(--border)',
-    primary: 'var(--primary)',
-    accent: 'var(--chart-3)',
-  };
+  const styles = useChartStyles();
 
   const common = {
     animationDuration: 450,
-    textStyle: { fontFamily: 'var(--font-dm-sans)' },
+    textStyle: { color: styles.text, fontFamily: styles.fontFamily },
     tooltip: {
       trigger: 'axis' as const,
-      backgroundColor: 'var(--popover)',
+      backgroundColor: styles.surface,
       borderColor: styles.border,
       textStyle: { color: styles.text },
     },
@@ -50,7 +113,9 @@ export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
         symbol: 'circle',
         symbolSize: 6,
         data: data.viewsByDay.map((item) => item.views),
-        areaStyle: { opacity: 0.1 },
+        lineStyle: { color: styles.primary, width: 2 },
+        itemStyle: { color: styles.primary },
+        areaStyle: { color: styles.primary, opacity: 0.12 },
       },
     ],
   };
@@ -79,6 +144,7 @@ export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
         type: 'bar',
         barMaxWidth: 18,
         data: data.subscribersByDay.map((item) => item.subscribers),
+        itemStyle: { color: styles.accent },
       },
     ],
   };
@@ -90,7 +156,7 @@ export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
     tooltip: {
       trigger: 'axis' as const,
       axisPointer: { type: 'shadow' as const },
-      backgroundColor: 'var(--popover)',
+      backgroundColor: styles.surface,
       borderColor: styles.border,
       textStyle: { color: styles.text },
     },
@@ -120,6 +186,7 @@ export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
         type: 'bar',
         barMaxWidth: 20,
         data: data.topArticles.map((item) => item.views),
+        itemStyle: { color: styles.primary },
       },
     ],
   };
