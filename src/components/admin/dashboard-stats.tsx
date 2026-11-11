@@ -39,28 +39,34 @@ export function DashboardStats({
 
   return (
     <section aria-label='Dashboard statistics'>
-      <div className='mb-3 flex min-h-5 items-center justify-end'>
-        {isFetching ? (
-          <p aria-live='polite' className='text-xs text-muted-foreground'>
-            Refreshing statistics…
-          </p>
-        ) : isError ? (
-          <p aria-live='polite' className='text-xs text-destructive'>
-            Could not refresh. Showing last loaded values.
-          </p>
-        ) : null}
+      <div
+        aria-live='polite'
+        className='mb-2 min-h-5 text-right text-xs text-muted-foreground'
+      >
+        {isFetching
+          ? 'Refreshing statistics…'
+          : isError
+            ? 'Could not refresh. Showing last loaded values.'
+            : null}
       </div>
-      <div className='grid gap-4 sm:grid-cols-2 xl:grid-cols-3'>
-        {statLabels.map(([label, key]) => (
+
+      <dl className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6'>
+        {statLabels.map(([label, key], index) => (
           <div
-            className='rounded-md border border-border bg-card p-5'
+            className={`border-t border-border py-4 ${
+              index % 2 === 0 ? 'pr-4' : 'border-l pl-4'
+            } md:border-l md:px-4 md:first:pl-0 xl:px-5 xl:first:pl-0`}
             key={key}
           >
-            <p className='text-sm text-muted-foreground'>{label}</p>
-            <p className='mt-2 text-3xl font-semibold'>{data[key]}</p>
+            <dt className='font-mono text-xs uppercase text-muted-foreground'>
+              {label}
+            </dt>
+            <dd className='mt-2 font-heading text-4xl font-normal tabular-nums'>
+              {data[key]}
+            </dd>
           </div>
         ))}
-      </div>
+      </dl>
     </section>
   );
 }

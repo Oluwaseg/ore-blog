@@ -29,6 +29,7 @@ function readChartStyles(): ChartStyles {
   const computed = getComputedStyle(root);
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
+
   const resolveColor = (token: string) => {
     const color = computed.getPropertyValue(token).trim();
     if (!context || !color) return color || '#000';
@@ -37,6 +38,7 @@ function readChartStyles(): ChartStyles {
     context.fillStyle = '#000';
     context.fillStyle = color;
     context.fillRect(0, 0, 1, 1);
+
     const [red, green, blue] = context.getImageData(0, 0, 1, 1).data;
     return `rgb(${red} ${green} ${blue})`;
   };
@@ -59,6 +61,7 @@ function useChartStyles() {
   useEffect(() => {
     const root = document.documentElement;
     const updateStyles = () => setStyles(readChartStyles());
+
     updateStyles();
 
     const observer = new MutationObserver(updateStyles);
@@ -66,6 +69,7 @@ function useChartStyles() {
       attributes: true,
       attributeFilter: ['class', 'style', 'data-theme'],
     });
+
     return () => observer.disconnect();
   }, []);
 
@@ -84,7 +88,7 @@ export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
       borderColor: styles.border,
       textStyle: { color: styles.text },
     },
-    grid: { left: 44, right: 24, top: 28, bottom: 56 },
+    grid: { left: 44, right: 20, top: 20, bottom: 48 },
   };
 
   const viewsOption = {
@@ -111,11 +115,11 @@ export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
         type: 'line',
         smooth: true,
         symbol: 'circle',
-        symbolSize: 6,
+        symbolSize: 5,
         data: data.viewsByDay.map((item) => item.views),
         lineStyle: { color: styles.primary, width: 2 },
         itemStyle: { color: styles.primary },
-        areaStyle: { color: styles.primary, opacity: 0.12 },
+        areaStyle: { color: styles.primary, opacity: 0.1 },
       },
     ],
   };
@@ -152,7 +156,7 @@ export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
   const articlesOption = {
     ...common,
     color: [styles.primary],
-    grid: { left: 120, right: 28, top: 12, bottom: 28 },
+    grid: { left: 120, right: 24, top: 8, bottom: 24 },
     tooltip: {
       trigger: 'axis' as const,
       axisPointer: { type: 'shadow' as const },
@@ -184,7 +188,7 @@ export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
       {
         name: 'Views',
         type: 'bar',
-        barMaxWidth: 20,
+        barMaxWidth: 18,
         data: data.topArticles.map((item) => item.views),
         itemStyle: { color: styles.primary },
       },
@@ -192,12 +196,13 @@ export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
   };
 
   return (
-    <div className='grid gap-6 xl:grid-cols-2'>
-      <ChartSection title={`Article views · ${data.rangeLabel}`}>
+    <div className='grid gap-x-8 gap-y-10 xl:grid-cols-2'>
+      <ChartSection index='01' title={`Article views · ${data.rangeLabel}`}>
         {data.viewsByDay.some((item) => item.views > 0) ? (
           <ReactECharts
+            className='w-full'
             option={viewsOption}
-            style={{ height: 300 }}
+            style={{ height: 280 }}
             notMerge
             lazyUpdate
           />
@@ -205,11 +210,13 @@ export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
           <ChartEmpty message='View activity will appear here as readers visit published articles.' />
         )}
       </ChartSection>
-      <ChartSection title={`New subscribers · ${data.rangeLabel}`}>
+
+      <ChartSection index='02' title={`New subscribers · ${data.rangeLabel}`}>
         {data.subscribersByDay.some((item) => item.subscribers > 0) ? (
           <ReactECharts
+            className='w-full'
             option={subscribersOption}
-            style={{ height: 300 }}
+            style={{ height: 280 }}
             notMerge
             lazyUpdate
           />
@@ -217,14 +224,17 @@ export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
           <ChartEmpty message='New newsletter signups will appear here.' />
         )}
       </ChartSection>
+
       <ChartSection
-        title={`Most-read published articles · ${data.rangeLabel}`}
         className='xl:col-span-2'
+        index='03'
+        title={`Most-read published articles · ${data.rangeLabel}`}
       >
         {data.topArticles.some((article) => article.views > 0) ? (
           <ReactECharts
+            className='w-full'
             option={articlesOption}
-            style={{ height: Math.max(280, data.topArticles.length * 38) }}
+            style={{ height: Math.max(260, data.topArticles.length * 38) }}
             notMerge
             lazyUpdate
           />
@@ -238,20 +248,21 @@ export function AnalyticsCharts({ data }: { data: AnalyticsData }) {
 
 function ChartSection({
   children,
+  index,
   title,
   className = '',
 }: {
   children: React.ReactNode;
+  index: string;
   title: string;
   className?: string;
 }) {
   return (
-    <section
-      className={`min-w-0 rounded-md border border-border bg-card p-5 ${className}`}
-    >
-      <h2 className='mb-4 text-sm font-semibold text-card-foreground'>
-        {title}
-      </h2>
+    <section className={`min-w-0 border-t border-border pt-4 ${className}`}>
+      <div className='mb-2 flex items-baseline gap-3'>
+        <span className='font-mono text-xs text-primary'>{index}</span>
+        <h3 className='font-heading text-xl font-normal'>{title}</h3>
+      </div>
       {children}
     </section>
   );
@@ -259,7 +270,7 @@ function ChartSection({
 
 function ChartEmpty({ message }: { message: string }) {
   return (
-    <div className='flex h-75 items-center justify-center px-6 text-center text-sm text-muted-foreground'>
+    <div className='flex h-72 items-center justify-center border-b border-border px-5 text-center text-sm text-muted-foreground'>
       {message}
     </div>
   );

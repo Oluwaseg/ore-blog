@@ -26,7 +26,7 @@ const dmMono = DM_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Editorial platform",
+    default: 'Editorial platform',
     template: `%s | Editorial platform`,
   },
   description: publication.description,
@@ -42,7 +42,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       <body>
         <ThemeProvider
           attribute='class'
-          defaultTheme='system'
+          defaultTheme='light'
           enableSystem
           disableTransitionOnChange
         >
