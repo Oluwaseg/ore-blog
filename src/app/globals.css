@@ -421,3 +421,7 @@ textarea::placeholder {
     animation: none;
   }
 }
+
+.admin-scrim {
+  background: oklch(0.15 0.02 295 / 0.58);
+}
