@@ -3,6 +3,7 @@
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
+import { TableKit } from '@tiptap/extension-table';
 import TextAlign from '@tiptap/extension-text-align';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -54,6 +55,9 @@ export function ArticleEditor({ name, defaultValue = '' }: ArticleEditorProps) {
       }),
       Image.configure({ allowBase64: false }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
+      TableKit.configure({
+        table: { resizable: true },
+      }),
       Placeholder.configure({ placeholder: 'Write the article...' }),
     ],
     content: defaultValue || '<p></p>',
@@ -184,6 +188,76 @@ export function ArticleEditor({ name, defaultValue = '' }: ArticleEditorProps) {
           type='button'
         >
           Image
+        </button>
+        <span aria-hidden='true' className='mx-1 w-px bg-border' />
+        <button
+          aria-label='Insert a 3 by 3 table with a header row'
+          className={toolbarButtonClassName}
+          disabled={!editor}
+          onClick={() =>
+            editor
+              ?.chain()
+              .focus()
+              .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+              .run()
+          }
+          type='button'
+        >
+          Insert table
+        </button>
+        <button
+          aria-label='Toggle table header row'
+          className={toolbarButtonClassName}
+          disabled={!editor}
+          onClick={() => editor?.chain().focus().toggleHeaderRow().run()}
+          type='button'
+        >
+          Header row
+        </button>
+        <button
+          aria-label='Add a row below the current row'
+          className={toolbarButtonClassName}
+          disabled={!editor}
+          onClick={() => editor?.chain().focus().addRowAfter().run()}
+          type='button'
+        >
+          + Row
+        </button>
+        <button
+          aria-label='Delete the current row'
+          className={toolbarButtonClassName}
+          disabled={!editor}
+          onClick={() => editor?.chain().focus().deleteRow().run()}
+          type='button'
+        >
+          − Row
+        </button>
+        <button
+          aria-label='Add a column after the current column'
+          className={toolbarButtonClassName}
+          disabled={!editor}
+          onClick={() => editor?.chain().focus().addColumnAfter().run()}
+          type='button'
+        >
+          + Column
+        </button>
+        <button
+          aria-label='Delete the current column'
+          className={toolbarButtonClassName}
+          disabled={!editor}
+          onClick={() => editor?.chain().focus().deleteColumn().run()}
+          type='button'
+        >
+          − Column
+        </button>
+        <button
+          aria-label='Delete the current table'
+          className={toolbarButtonClassName}
+          disabled={!editor}
+          onClick={() => editor?.chain().focus().deleteTable().run()}
+          type='button'
+        >
+          Delete table
         </button>
       </div>
       <EditorContent editor={editor} />

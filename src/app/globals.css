@@ -296,6 +296,50 @@ textarea::placeholder {
   border-radius: var(--radius-sm);
 }
 
+.article-content table,
+.tiptap table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.article-content table {
+  display: block;
+  overflow-x: auto;
+}
+
+.article-content th,
+.article-content td,
+.tiptap th,
+.tiptap td {
+  min-width: 8rem;
+  border: 1px solid var(--border);
+  padding: 0.65rem 0.8rem;
+  vertical-align: top;
+}
+
+.article-content th,
+.tiptap th {
+  background: var(--muted);
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.article-content td p,
+.article-content th p,
+.tiptap td p,
+.tiptap th p {
+  margin-bottom: 0.25rem;
+}
+
+.tiptap .tableWrapper {
+  overflow-x: auto;
+}
+
+.tiptap table {
+  table-layout: fixed;
+}
+
 .public-site[data-public-text-scale='0.9'] > header,
 .public-site[data-public-text-scale='0.9'] > main,
 .public-site[data-public-text-scale='0.9'] > footer {
