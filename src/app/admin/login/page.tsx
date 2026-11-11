@@ -1,12 +1,14 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { connection } from 'next/server';
+import { Suspense } from 'react';
 import { LoginForm } from './login-form';
 
 export const metadata: Metadata = {
   title: 'Editor sign in',
 };
 
-export default function AdminLoginPage() {
+export default async function AdminLoginPage() {
   return (
     <main className='grid min-h-dvh flex-1 grid-cols-1 lg:grid-cols-[1.15fr_1fr]'>
       {/* Masthead side */}
@@ -83,10 +85,25 @@ export default function AdminLoginPage() {
           </div>
         </div>
 
-        <p className='font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground'>
-          © {new Date().getFullYear()} Beyond the Statute
-        </p>
+        <Suspense
+          fallback={
+            <p className='font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground'>
+              © 2026 Beyond the Statute
+            </p>
+          }
+        >
+          <CurrentYearCopyright />
+        </Suspense>
       </section>
     </main>
+  );
+}
+
+async function CurrentYearCopyright() {
+  await connection();
+  return (
+    <p className='font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground'>
+      © {new Date().getFullYear()} Beyond the Statute
+    </p>
   );
 }
