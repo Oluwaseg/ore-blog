@@ -103,7 +103,7 @@ export default function ContactPage() {
             Have a personal story to tell?{' '}
             <Link
               className='text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary'
-              href='/submit-story'
+              href='/stories/submit'
             >
               Share it privately
             </Link>
