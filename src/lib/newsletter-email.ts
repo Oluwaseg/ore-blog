@@ -2,9 +2,7 @@ import Handlebars from 'handlebars';
 import { fileURLToPath } from 'node:url';
 import nodemailer from 'nodemailer';
 
-const logoPath = fileURLToPath(
-  new URL('./assets/beyond-the-statute-logo.png', import.meta.url)
-);
+const logoPath = fileURLToPath(new URL('./logo.png', import.meta.url));
 
 const logoAttachment = {
   filename: 'beyond-the-statute-logo.png',
