@@ -1,8 +1,8 @@
 import Handlebars from 'handlebars';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import nodemailer from 'nodemailer';
 
-const logoPath = fileURLToPath(new URL('./logo.png', import.meta.url));
+const logoPath = join(process.cwd(), 'public', 'logo.png');
 
 const logoAttachment = {
   filename: 'beyond-the-statute-logo.png',
