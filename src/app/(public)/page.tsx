@@ -3,9 +3,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/' },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const publication = await getPublicationSettings();
+  return {
+    title: { absolute: publication.metaTitle },
+    alternates: { canonical: '/' },
+  };
+}
 
 const topics = [
   'Sexual violence and the law in practice',
